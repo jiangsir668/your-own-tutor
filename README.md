@@ -26,11 +26,11 @@ curl -o .claude/skills/your-own-tutor/SKILL.md \
 ## In One Breath · 一镜到底
 
 ```
-User: 备课 [drops lecture notes]
+用户: 备课 [drops lecture notes]
 
 → Extract 12 PPTs → DNA → Profile → 13-ch dependency tree → Build Ch1
 
-User: 学习
+用户: 学习
 
 → 进度：Ch2「命题与论证」，2.1 论证结构
 → Ch1 已完成：1.1✅ 1.2✅ 1.3✅
@@ -60,7 +60,7 @@ PDF/PPT/Word → DNA Extract → Profile → Dependency Tree → Build Chapters 
 
 ## Evolution · 进化纪
 
-| 基线 32 | v2 74.6 | v3 78.3 | v4 81.1 | v5 84.0 | v9 87.1 | v10 90.6 | v14 91.3 |
+| 基线 32 | v2 74.6 | v3 78.3 | v4 81.1 | v5 84.0 | v9 87.1 | v10 90.6 | v14 90.8 |
 |----------|---------|---------|---------|---------|---------|----------|----------|
 
 > 认得字 ≠ 懂。过得了追问，才叫懂。
