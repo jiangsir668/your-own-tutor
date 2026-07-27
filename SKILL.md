@@ -1,11 +1,11 @@
 ---
 name: "jiaocheng"
-description: "全自动课程生成终端——用户扔过来课件PDF/教材/大纲/视频等任意教学材料 → 自动提取 → DNA萃取 → 画像采集 → 课程架构 → 逐章构建 → 费曼式教学交付（先教后问，用户先用自己的话回答，再对照标准答案，最后费曼追问撞直觉。真懂了才过）。触发词：「备课」「教我」「课程架构」「继续下一章」。"
+description: "全自动课程生成终端——扔材料自动织课，费曼四步追打，每概念不过不准走。自动存进度跨会话续课。触发词：「备课」「教我」「继续」。"
 ---
 
 ---
 name: "jiaocheng"
-description: "全自动课程生成终端——用户扔过来课件PDF/教材/大纲/视频等任意教学材料 → 自动提取 → DNA萃取 → 画像采集 → 课程架构 → 逐章构建 → 费曼式教学交付（先教后问，用自己话说再对照答案，真懂了才过）。触发词：「备课」「教我」「课程架构」「继续下一章」。"
+description: "全自动课程生成终端——用户扔过来课件PDF/教材/大纲/视频等任意教学材料 → 自动提取 → DNA萃取 → 画像采集 → 课程架构 → 逐章构建 → 费曼式教学交付（先教后问，用户先用自己的话回答，再对照标准答案，最后费曼追问撞直觉。真懂了才过）。每次教完自动存进度，下次接着来。触发词：「备课」「教我」「课程架构」「继续下一章」。"
 ---
 
 # 教程大师 — 全自动课程生成与交互教学
@@ -176,7 +176,31 @@ python3 "${SKILL_DIR}/scripts/watch.py" "<source>" --detail balanced
 
 ---
 
-### 阶段5：逐章互动课程构建（按需，一次一章）
+### 阶段5：逐章互动课程构建 + 进度追踪（按需，一次一章）
+
+**启动前必做：** Glob 检查项目目录是否存在 `progress.json`。
+- 存在 → 读取，从中断处继续。
+- 不存在 → 从第1章开始构建，同时初始化 `progress.json`。
+
+`progress.json` 结构：
+```json
+{
+  "course": "逻辑学",
+  "total_chapters": 13,
+  "current_chapter": 1,
+  "completed": [],
+  "status": {
+    "1": { "state": "built", "concepts_cleared": 0, "concepts_stalled": [], "manjuan_count": 0 },
+    ...
+  }
+}
+```
+
+每章构建完成，更新 `progress.json` 中该章的 `state: "built"`。
+
+每章费曼验证完成（所有概念「❌以为懂了」清空），更新 `state: "passed"`。
+
+**续课流程：** 用户说「继续」「教我」「继续下一章」→ 读取 `progress.json` → 定位 `current_chapter` → 检查前一章是否 passed → 是则进入当前章，否则提示先完成前一章。
 
 输入：课程架构 + 全部源材料 + 学习画像 + 已完成章节 JSON
 
@@ -199,9 +223,11 @@ python3 "${SKILL_DIR}/scripts/watch.py" "<source>" --detail balanced
    - ## 通往下章预告（一句话预告）
    - ## 薄弱概念回旋（来自前置章 JSON，如无则写"无"）
 
-输出：`course-chapter-N.md` + `completed-chapter-N.json`
+输出：`course-chapter-N.md` + `completed-chapter-N.json` + 更新 `progress.json`
 
-🔴 CHECKPOINT：构建完成后检查五个段落全部非空。缺一段落 → 补写。
+🔴 CHECKPOINT：构建完成后
+- 检查五个段落全部非空。缺一段落 → 补写。
+- 检查 `progress.json` 中该章 `state` 已更新为 `"built"`。
 
 **失败处理：** 架构文件不存在 → 告知用户先跑阶段4。前置章 JSON 不存在 → 薄弱概念回旋写"无"，不阻塞。
 
@@ -210,6 +236,10 @@ python3 "${SKILL_DIR}/scripts/watch.py" "<source>" --detail balanced
 ### 阶段6：费曼式教学交付
 
 用户说"教我第X章" → 每讲一个微概念，立即启动教→问→对→验→判微循环，过了才继续。
+
+**续教流程：** 如果用户说「继续教我」而不是指定章号 → 读取 `progress.json` → 找到 `current_chapter` → 检查该章 `concepts_stalled`：
+- 有暂挂概念 → 先补这些
+- 无暂挂 → 从下一个未验证的概念开始
 
 一个微概念的教学流程：
 
@@ -223,7 +253,7 @@ python3 "${SKILL_DIR}/scripts/watch.py" "<source>" --detail balanced
 
 🔴 CHECKPOINT：用户给出了自己的回答后，才进入 Step 2。
 
-**失败处理：** 用户完全答不出 → 给一个更简单的例子做提示，再问。两次仍答不出 → [暂挂]。
+**失败处理：** 用户完全答不出 → 给一个更简单的例子做提示，再问。两次仍答不出 → 标记该概念为[暂挂]，记入 `progress.json` 对应章的 `concepts_stalled`。
 
 #### Step 2 — 对（对照标准答案）
 
@@ -257,7 +287,7 @@ python3 "${SKILL_DIR}/scripts/watch.py" "<source>" --detail balanced
 | 说"不知道"/放弃 | 确认："继续挖还是换概念？" |
 | 答非所问 | 拉回："我问的不是这个"，最多2次；第3次直接判 |
 
-#### Step 4 — 判（诊断 + 决策）
+#### Step 4 — 判（诊断 + 决策 + 存进度）
 
 ```
 ✅ 真懂了：
@@ -270,8 +300,8 @@ python3 "${SKILL_DIR}/scripts/watch.py" "<source>" --detail balanced
 - [指向具体基础概念]
 ```
 
-- 「❌以为懂了」为空 → 过关，下一个微概念
-- 「❌以为懂了」非空 → 回到 Step 2 重新对照，最多回炉两次；两次后仍不过标记[暂挂]
+- 「❌以为懂了」为空 → 过关。`progress.json` 更新 `concepts_cleared += 1`。继续下一个微概念。
+- 「❌以为懂了」非空 → 回到 Step 2 重新对照，`manjuan_count += 1`。最多回炉两次；两次后仍不过 → 写入 `concepts_stalled`，先走下一个概念。
 
 🔴 CHECKPOINT：「❌以为懂了」为空 → 继续下一概念。非空 → 重新对照。
 
@@ -280,6 +310,9 @@ python3 "${SKILL_DIR}/scripts/watch.py" "<source>" --detail balanced
 - 回顾每个微概念的诊断结果
 - 对照 `course-chapter-N.md` 掌握检查清单逐项确认
 - 标注回旋概念 → 写入 `completed-chapter-N.json`
+- 更新 `progress.json`：
+  - `state: "passed"`, `current_chapter += 1`
+  - 若有 `concepts_stalled` 非空，提示用户：这些概念等到回旋章再补
 
 ---
 
@@ -292,6 +325,8 @@ python3 "${SKILL_DIR}/scripts/watch.py" "<source>" --detail balanced
 - «❌以为懂了» 非空 → 不准前进
 - 卡住 → 切换通道（文字→图→手算→代码）
 - 反例陷阱是理解锚点
+- **每次章末验证通过后必须更新 `progress.json`**——下次用户说「继续」就从断点接上
+- **会话开始先读 `progress.json`**——知道教到哪一章节、哪个概念
 - 所有文件输出到项目目录
 - DNA萃取、画像、学习追踪存入记忆系统
 - 阶段1必须在阶段2之前完成
@@ -308,6 +343,7 @@ python3 "${SKILL_DIR}/scripts/watch.py" "<source>" --detail balanced
 | 6 | 跳过反例直接进习题 | 每个概念配"最容易用错的地方" |
 | 7 | 用"大致""基本"带过错误 | 说清哪里错、为什么错、正确是什么 |
 | 8 | 答非所问 > 2次不拉回 | 第3次直接诊断 |
-| 9 | **教完案例立刻写标准答案，不让用户先自己说** | Step 1 提一个问题，等用户用自己的话回答了，Step 2 才给答案 |
+| 9 | 教完案例立刻写标准答案，不让用户先自己说 | Step 1 提一个问题，等用户用自己的话回答了，Step 2 才给答案 |
 | 10 | 讲完整章再统一验证 | 每概念讲完立刻教→问→对→验→判循环 |
+| 11 | **下次会话不知道教到哪了** | 每次章末更新 `progress.json`，每次启动先读 `progress.json` |
 
