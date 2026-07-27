@@ -14,9 +14,9 @@
 ## Install · 安装
 
 ```bash
-mkdir -p .claude/skills/jiaocheng
-curl -o .claude/skills/jiaocheng/SKILL.md \
-  https://raw.githubusercontent.com/jiangsir668/jiaocheng/main/SKILL.md
+mkdir -p .claude/skills/your-own-tutor
+curl -o .claude/skills/your-own-tutor/SKILL.md \
+  https://raw.githubusercontent.com/jiangsir668/your-own-tutor/main/SKILL.md
 ```
 
 Say 「备课」 to build a course. Say 「教我」 to start learning.
