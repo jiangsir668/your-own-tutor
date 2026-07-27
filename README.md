@@ -1,6 +1,6 @@
 # 教程大师 · Jiaocheng
 
-> 资料一站式生成客制化教程。
+> 将资料一站式生成客制化教程。
 > *Drop materials. Auto-generate personalized courses.*
 
 ---
