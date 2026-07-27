@@ -29,7 +29,7 @@ description: "教程大师 · 资料一站式生成客制化教程。Drop materi
 - 不确定 → 默认引导
 
 **对费曼回应：不说"很好""有道理""不错"。开场不加前缀——直接捅。**
-**默认 5 轮（对齐 feynman skill）。若 3 轮内独立判三个新例无误 → 提前 clear。否则追满 5 轮或触发 stall。**
+**默认 5 轮（对齐 feynman skill）。若 3 轮内独立判三个新例且无误 → 提前 clear。否则追满 5 轮或触发 stall。**
 
 ## 全局流程
 
@@ -43,14 +43,12 @@ pip list --break-system-packages 2>/dev/null | grep -q docx && echo "python-docx
 
 工具可用性一口报给用户。
 
-**`progress.json` / `spiral-track.json` 完整性检查（预检第二步）：**
+**`progress.json` 完整性检查（预检第二步）：**
 ```bash
 python3 -c "import json; f=open('progress.json'); d=json.load(f); assert 'current_concept' in d; assert 'status' in d; assert 'global_stalled' in d; print('OK')"
-# 螺旋跟踪检查（若存在）
-python3 -c "import json; f=open('spiral-track.json'); json.load(f); print('spiral OK')"
 ```
 
-JSON 损坏 → 告知用户。尝试从备份或同目录其他文件重建。
+`spiral-track.json` 同理检查。JSON 损坏 → 告知用户，从备份或同目录文件重建。无法重建 → 告知用户手动定位。
 
 | 工具不可用 | 处理 |
 |---|---|
@@ -107,15 +105,11 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 
 输出 `[课程名]_课程架构.md`。🔴 抽查首/中/末章锚点。
 
-**回旋追踪表同时写入 `spiral-track.json`**：
-```json
-{"1.1 有效性定义": ["Ch5"], "12.2 述词演绎证明": []}
-```
-键 = 概念名，值 = 回旋章号列表。无回旋 → `[]`。
+**回旋追踪表同时写入 `spiral-track.json`**。键 = 概念名，值 = 回旋章号列表。无回旋 → `[]`。
 
 ### 阶段5：逐章课程构建 + 进度追踪
 
-**启动前：** 读 `progress.json`。不存在则从第1章初始化。**同时检查 `spiral-track.json` 是否存在——若阶段4刚跑完应已输出；若缺失，Glob 搜不到则标注 [spiral-track 缺失]，阶段6补课跳过。**
+**启动前：** 读 `progress.json`。不存在则从第1章初始化。**同时检查 `spiral-track.json` 是否存在——若阶段4刚跑完应已输出；缺失 → 标注 [缺失]，阶段6补课跳过。**
 
 **续课（`state=teaching`）：** 记忆唤醒——三句话（锚点问题 + 标准答案 + 追问断点），然后从 Step 2 继续。
 
@@ -123,7 +117,7 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 
 输出: `course-chapter-N.md` + 更新 `progress.json`。🔴 五段落全部非空。构建完成后立即检查。
 
-**`progress.json` 与 `completed-chapter-N.json` 的 `current_concept` 和 `concepts[]` 必须一致。章末交叉检查——发现偏差 → 以 `completed-chapter-N.json` 为准，更新 `progress.json`。`progress.json` 是运行时状态，`completed` 是事实记录。**
+**`progress.json` 与 `completed-chapter-N.json` 的 `concepts[]` 必须一致。章末交叉检查——发现偏差 → 以 `completed` 为准，更新 `progress.json`。`progress` 是运行时状态，`completed` 是事实记录。**
 
 ### 阶段6：费曼式教学交付
 
@@ -164,6 +158,21 @@ answer_given 分支：直接教答案，用讲义原始案例演示。确认理�
 
 🔴 章末：`progress.json` 与 `completed-chapter-N.json` 交叉检查 `concepts[]` 一致性。以 `completed` 为准。
 
+#### `completed-chapter-N.json` 结构
+
+```json
+{
+  "chapter": N,
+  "passed": true,
+  "concepts": [
+    {"name": "C.N 概念名", "result": "cleared|stalled|teaching", "attempts": N, "diagnosis": "诊断摘要"}
+  ],
+  "stalled_concepts": []
+}
+```
+
+每章 passed 后生成或覆写此文件。🔴 必须是合法 JSON。缺此文件 → 从 progress.json 重建。
+
 ## 全局铁律
 
 - 面对任何提问，先做一个字的回应，再展开。永不沉默。
@@ -173,8 +182,8 @@ answer_given 分支：直接教答案，用讲义原始案例演示。确认理�
 - Step 1 先让用户说，Step 2 才给答案
 - «❌以为懂了» 非空 → 不准前进
 - 卡住 → 切换通道(文字→图→手算→代码)
-- 每次会话开始: 阶段0预检（含 progress/spiral JSON 完整性检查）
-- 每个验证后更新 progress.json。`progress.json` vs `completed-chapter-N.json` → `completed` 为准。
+- 每次会话开始: 阶段0预检 + 读 `progress.json` + 读 `spiral-track.json`
+- 每次验证后更新 progress.json。`progress` vs `completed` → `completed` 为准。
 
 ## 反例黑名单
 
@@ -199,5 +208,5 @@ answer_given 分支：直接教答案，用讲义原始案例演示。确认理�
 | 15 | 跨会话续课忘上下文 | 记忆唤醒三句话再进 Step 2 |
 | 16 | 暂挂概念丢黑洞 | global_stalled + spiral-track.json 匹配 |
 | 17 | `completed-chapter-N.json` 缺 schema | 章末按固定结构生成或重建 |
-| 18 | progress 与 completed 的 current_concept 不一致 | 以 completed 为准，更新 progress |
+| 18 | progress 与 completed 的 concepts 不一致 | 以 completed 为准，更新 progress |
 
