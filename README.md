@@ -4,11 +4,25 @@
 
 扔材料进来——PDF、PPT、Word、视频都行。自动拆解，萃脉络，按你的脑回路织成课。逐章教。每教一个概念，费曼追身打：反问、拆词、抛反例、捅模糊句。过不了不准往下走。
 
-## 怎么用
+## 安装
 
-把 `SKILL.md` 丢进 `.claude/skills/jiaocheng/`。说「备课」「教我」就启动。
+在 Claude Code 中执行：
 
-### 一镜到底
+```bash
+/plugin install github:jiangsir668/jiaocheng
+```
+
+或手动安装：
+
+```bash
+mkdir -p .claude/skills/jiaocheng
+curl -o .claude/skills/jiaocheng/SKILL.md \
+  https://raw.githubusercontent.com/jiangsir668/jiaocheng/main/SKILL.md
+```
+
+装好后说「备课」「教我」即启动。
+
+## 一镜到底
 
 ```
 用户：备课 [上传逻辑学讲义12份PPT] [甩入B站视频链接]
