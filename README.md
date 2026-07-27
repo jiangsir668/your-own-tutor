@@ -1,13 +1,13 @@
 # 教程大师 · Jiaocheng
 
-> 你讲得出来，才是你的。讲不出，回头。
-> *If you can't explain it, you don't know it. Come back when you can.*
+> 资料一站式生成客制化教程。
+> *Drop materials. Auto-generate personalized courses.*
 
 ---
 
 ## What · 何物
 
-扔材料——PDF、PPT、Word、视频。自动拆，六阶流水线。每教一个概念不放过你：先让你用自己话说，再亮标准答案对照，然后费曼追身打到你再也不能含混其词。过不了，不准往下。
+扔材料——PDF、PPT、Word、视频。自动拆解，萃取脉络，按你的偏好织成课。每教一个概念不放过你：先让你用自己话说，再亮标准答案对照，费曼追身打到你再也不能含混其词。过不了，不准往下。
 
 *Drop materials — PDF, PPT, Word, video. Auto-extract. Six-stage pipeline. Every concept: first you say it in your own words. Then we compare against the answer. Then Feynman interrogation until you can't hide behind vagueness. No pass, no advance.*
 
@@ -19,7 +19,7 @@ curl -o .claude/skills/jiaocheng/SKILL.md \
   https://raw.githubusercontent.com/jiangsir668/jiaocheng/main/SKILL.md
 ```
 
-Say 「备课」「教我」 to start. 说这两句即启动。
+Say 「备课」 to build a course. Say 「教我」 to start learning.
 
 ## In One Breath · 一镜到底
 
