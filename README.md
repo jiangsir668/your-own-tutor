@@ -7,9 +7,9 @@
 
 ## What · 何物
 
-扔材料——PDF、PPT、Word、视频。自动拆解，萃取脉络，按你的偏好织成课。每教一个概念不放过你：先让你用自己话说，再亮标准答案对照，费曼追身打到你再也不能含混其词。过不了，不准往下。
+扔材料——PDF、PPT、Word。自动拆解，萃取脉络，按你的偏好织成课。每教一个概念不放过你：先让你用自己话说，再亮标准答案对照，费曼追身打到你再也不能含混其词。过不了，不准往下。
 
-*Drop materials — PDF, PPT, Word, video. Auto-extract. Six-stage pipeline. Every concept: first you say it in your own words. Then we compare against the answer. Then Feynman interrogation until you can't hide behind vagueness. No pass, no advance.*
+*Drop materials — PDF, PPT, Word. Auto-extract. Six-stage pipeline. Every concept: first you say it in your own words. Then we compare against the answer. Then Feynman interrogation until you can't hide behind vagueness. No pass, no advance.*
 
 ## Install · 安装
 
@@ -24,9 +24,9 @@ Say 「备课」 to build a course. Say 「教我」 to start learning.
 ## In One Breath · 一镜到底
 
 ```
-User: 备课 [drops lecture notes] [throws video link]
+User: 备课 [drops lecture notes]
 
-→ Extract 12 PPTs + video catalog
+→ Extract 12 PPTs
 → Extract teaching DNA
 → Profile learner
 → Draw 13-chapter dependency tree
@@ -48,15 +48,21 @@ User: 教我 Ch1
 ## The Pipeline · 流水线
 
 ```
-PDF/PPT/Word/Video → DNA Extract → Profile → Dependency Tree → Build Chapters → ⚡Teach→Ask→Compare→Verify→Judge
+PDF/PPT/Word → DNA Extract → Profile → Dependency Tree → Build Chapters → ⚡Teach→Ask→Compare→Verify→Judge
 ```
 
 每个概念即教即验。不讲完整章再回头。
 *Every concept verified immediately. Never wait until chapter end.*
 
+## What It Eats · 能吃
+
+| PDF | PPT | Word |
+|-----|-----|------|
+| `pdftotext` + `pdftoppm` | LibreOffice → PDF | python-docx |
+
 ## The Rules · 十诫
 
-1. 不跳过提取直接萃 · *Never skip extraction*
+1. 不跳过预检直接萃 · *Never skip preflight*
 2. 不用定义开场 · *Never open with definitions*
 3. 费曼追问不到底不出诊断 · *Never diagnose until interrogation exhausts*
 4. 含混不放过 · *Never let vagueness slide*
