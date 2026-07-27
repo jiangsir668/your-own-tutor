@@ -1,6 +1,6 @@
 ---
 name: "jiaocheng"
-description: "教程大师 · 资料一站式生成客制化教程。Drop materials, auto-generate personalized courses. 触发词：「备课」「教我」「继续」。"
+description: "教程大师 · 资料一站式生成客制化教程。Drop materials (PDF/PPT/Word), auto-generate personalized courses. 触发词：「备课」「教我」「继续」。"
 ---
 
 ---
@@ -23,11 +23,13 @@ description: "教程大师 · 资料一站式生成客制化教程。Drop materi
 ### 教学中「不给答案」vs「必须回答」冲突规则
 
 - **用户在迂回提问（不是放弃）** → 给一句引导，重申问题，不直接亮答案
+- **用户在做费曼追问中卡住** → 回到 Step 2 重新对照标准答案，而不是给提示
 - **用户明确放弃或跳过当前概念** → 尊重，确认后切换
 - **用户问的不是当前教学概念** → 立刻回答，不拖
 - **不确定 → 默认选"引导"**
 
 **铁则：面对任何提问，先做一个字的回应（"好"/"嗯"/"对"/"不对"），再展开。**
+**对费曼回应：不说"很好""有道理""不错"。**
 
 ## 全局流程
 
@@ -137,9 +139,11 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 
 **续课：** 读 `current_concept` → `teaching` 从 Step 2 开始，`stalled` 先补，`cleared` 全部则推进。
 
+**progress.json 损坏/丢失：** Glob 搜 `course-chapter-*.md` 和记忆文件重建。无法重建 → 告知用户定位断点章号，手动设 `current_chapter`。
+
 每章构建：禁令(不用定义开场、不超3分钟无锚推导、不超10分钟无停点、不跳反例)、五段落(掌握清单、回旋追踪、习题映射、下章预告、薄弱回旋)。
 
-输出: `course-chapter-N.md` + 更新 `progress.json`。🔴 五段落全部非空。
+输出: `course-chapter-N.md` + 更新 `progress.json`。🔴 五段落全部非空。构建完成后立即检查。
 
 ### 阶段6：费曼式教学交付
 
@@ -151,15 +155,17 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 
 🔴 用户给出回答后进 Step 2。
 
-**失败处理：** 两次答不出 → `stalled`，切下一概念。用户问"答案是什么" → 引导一句。用户说"跳过" → 确认后切换。
+**失败处理：** 用户坚持"告诉我答案" → 给一句引导。两次引导后用户仍拒绝回答 → Step 2 直接亮答案，跳过用户自陈。记录 concepts[].state 为 `answer_given`（不算 cleared，需在 Step 3 加倍追问）。
 
 #### Step 2 — 对（对照标准答案）
 
 亮标准答案，与用户回答对照。指出抓住什么、漏了什么。🔴 逐例验证无误后进 Step 3。
 
+**若 Step 1 用户拒绝回答且走了 answer_given 分支：** Step 2 直接教答案。用讲义中最原始的案例演示标准答案如何判。确认用户理解定义含义后进 Step 3（但追问轮次 +1，确保同样深度）。
+
 #### Step 3 — 验（费曼追问）
 
-拿答案撞直觉。新例、反例。每轮挑含糊句 + 挑战判断。不放过模糊词。换词不换义指破。
+拿答案撞直觉。新例、反例。每轮挑含糊句 + 挑战判断。不放过模糊词。换词不换义指破。用户尝试推导时不打断——说完了再捅。
 
 **失败分支：**
 | 情况 | 处理 |
@@ -185,15 +191,31 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 
 `state: "passed"`, `current_chapter += 1`。有 stalled 概念 → 提示回旋章补。
 
+**概念名与课程文件同步：** 更新 `progress.json` 的 `concepts[]` 时，与对应 `course-chapter-N.md` 中的概念列表交叉检查。课程文件有而 progress 中无 → 追加。
+
+#### 章末文件检查清单（每章验证通过后必跑）
+
+```bash
+# 确认以下文件存在
+ls course-chapter-{N}.md completed-chapter-{N}.json progress.json
+# 确认 progress.json 中该章 state="passed"
+grep -A2 "\"${N}\"" progress.json | grep passed
+# 确认 concepts[] 全部 cleared
+```
+
+缺 `completed-chapter-{N}.json` → 基于 progress.json 重建（从 concepts[] 提取 cleared/stalled 状态 + 最终诊断）。
+
 ## 全局铁律
 
 - **面对任何提问，先做一个字的回应，再展开。永不沉默。**
+- **对费曼回应：不说"很好""有道理""不错"。**
 - 课件主教学线，教材是作业题库
 - Step 1 先让用户说，Step 2 才给答案
 - «❌以为懂了» 非空 → 不准前进
 - 卡住 → 切换通道(文字→图→手算→代码)
 - 每次会话开始: 跑阶段0预检 + 读 `progress.json`
 - 每次验证后更新 `progress.json`（概念级）
+- 章末必跑文件检查清单
 
 ## 反例黑名单
 
@@ -212,4 +234,7 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 | 9 | 教完立刻亮答案 | 先让用户自陈 |
 | 10 | 讲完整章再验 | 每概念即验 |
 | 11 | 下次会话不知教到哪 | 每次更新 progress.json |
+| 12 | progress.json 缺概念或损坏 → 静默崩 | 启动时校验 + 章末文件检查清单 |
+| 13 | 用户拒绝回答 Step 1 直接放弃 | answer_given 分支 + 加倍追问 |
+| 14 | 对费曼回应说"很好" | 直接捅，不客套 |
 
