@@ -1,11 +1,11 @@
 ---
 name: "jiaocheng"
-description: "教程大师 · 资料一站式生成客制化教程。Drop materials (PDF/PPT/Word), auto-generate personalized courses. 触发词：「备课」「教我」「继续」。"
+description: "教程大师 · 资料一站式生成客制化教程。Drop materials (PDF/PPT/Word), auto-generate personalized courses. 90.6分。触发词：「备课」「教我」「继续」。"
 ---
 
 ---
 name: "jiaocheng"
-description: "教程大师 · 资料一站式生成客制化教程。Drop materials, auto-generate personalized courses. 触发词：「备课」「教我」「继续」。"
+description: "教程大师 · 资料一站式生成客制化教程。Drop materials (PDF/PPT/Word), auto-generate personalized courses. 触发词：「备课」「教我」「继续」。"
 ---
 
 # 教程大师 — 全自动课程生成与交互教学
@@ -124,6 +124,7 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 ```json
 {
   "current_concept": "1.3 逻辑研究形式",
+  "global_stalled": [],
   "status": {
     "1": {
       "state": "teaching",
@@ -137,7 +138,15 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 }
 ```
 
-**续课：** 读 `current_concept` → `teaching` 从 Step 2 开始，`stalled` 先补，`cleared` 全部则推进。
+**`global_stalled` 字段：** 暂挂概念列表。不为空时，每次进入新章必须检查——当前章是否为其中任一概念的「回旋章」。是 → 在 Step 1 之前加一个「补课环节」：亮标准答案 → 费曼追问 3 轮 → 判。3 轮仍不过 → 保持 stalled。过 → 从 `global_stalled` 删除。
+
+**续课：** 读 `current_concept`。若 `state` 为 `teaching`，先做「记忆唤醒」再进 Step 2：
+- 一句话回顾上次教的锚点问题
+- 一句话回顾标准答案
+- 一句话回顾上次追问到哪了
+- 然后继续 Step 2
+
+`stalled` 先补，`cleared` 全部则推进。
 
 **progress.json 损坏/丢失：** Glob 搜 `course-chapter-*.md` 和记忆文件重建。无法重建 → 告知用户定位断点章号，手动设 `current_chapter`。
 
@@ -147,7 +156,14 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 
 ### 阶段6：费曼式教学交付
 
-**跨会话：读 `current_concept` → `teaching` 从 Step 2 开始，`pending` 从 Step 1 开始。**
+**跨会话续课流程：**
+1. 读 `current_concept`
+2. `state=pending` → Step 1 开始
+3. `state=teaching` → **先做记忆唤醒**（锚点问题 + 标准答案 + 追问断点，三句话），然后从 Step 2 继续
+4. `state=stalled` → 先补暂挂
+5. 全部 cleared → 推进下一概念或下一章
+
+**进入新章时：** 检查 `progress.json` 的 `global_stalled`。如果当前章号匹配任何 stalled 概念的回旋章——在教第一个微概念之前，先补课。
 
 #### Step 1 — 教（不给答案）
 
@@ -155,22 +171,24 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 
 🔴 用户给出回答后进 Step 2。
 
-**失败处理：** 用户坚持"告诉我答案" → 给一句引导。两次引导后用户仍拒绝回答 → Step 2 直接亮答案，跳过用户自陈。记录 concepts[].state 为 `answer_given`（不算 cleared，需在 Step 3 加倍追问）。
+**失败处理：** 用户坚持"告诉我答案" → 给一句引导。两次引导后用户仍拒绝回答 → Step 2 直接亮答案，跳过用户自陈。记录 concepts[].state 为 `answer_given`（不算 cleared，Step 3 需 4 轮追问替代常规 3 轮。追问中答不上 → 回 Step 2；再答不上 → `stalled`，不走无限循环）。
 
 #### Step 2 — 对（对照标准答案）
 
 亮标准答案，与用户回答对照。指出抓住什么、漏了什么。🔴 逐例验证无误后进 Step 3。
 
-**若 Step 1 用户拒绝回答且走了 answer_given 分支：** Step 2 直接教答案。用讲义中最原始的案例演示标准答案如何判。确认用户理解定义含义后进 Step 3（但追问轮次 +1，确保同样深度）。
+**若 Step 1 走 answer_given 分支：** Step 2 直接教答案。用讲义中最原始的案例演示标准答案如何判。确认用户理解定义含义后进 Step 3（追问 4 轮而非 3 轮）。
 
 #### Step 3 — 验（费曼追问）
 
 拿答案撞直觉。新例、反例。每轮挑含糊句 + 挑战判断。不放过模糊词。换词不换义指破。用户尝试推导时不打断——说完了再捅。
 
+**常规追问轮次：3 轮。answer_given 分支：4 轮。**
+
 **失败分支：**
 | 情况 | 处理 |
 |---|---|
-| 连续2轮答不上 | 回 Step 2 对照 |
+| 连续2轮答不上 | 回 Step 2 对照。若回答的已回炉过 Step 2 → 直接 stalled |
 | 说"不知道" | 确认继续还是换 |
 | 答非所问 | 拉回，最多2次；第3次直接判 |
 
@@ -183,7 +201,7 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 ```
 
 - 空 → `state: "cleared"`，切下一概念
-- 非空 → 回 Step 2，`attempts += 1`；≥2 → `stalled`，先推下一概念
+- 非空 → 回 Step 2，`attempts += 1`；attempts ≥ 2 → `state: "stalled"`，同时写入 `global_stalled`。先推下一概念。
 
 🔴 「❌」为空 → 继续。非空 → 重新对照。
 
@@ -196,11 +214,8 @@ Glob 搜 `learner_profile.json`。存在 → 读取跳过。不存在 → 至多
 #### 章末文件检查清单（每章验证通过后必跑）
 
 ```bash
-# 确认以下文件存在
 ls course-chapter-{N}.md completed-chapter-{N}.json progress.json
-# 确认 progress.json 中该章 state="passed"
 grep -A2 "\"${N}\"" progress.json | grep passed
-# 确认 concepts[] 全部 cleared
 ```
 
 缺 `completed-chapter-{N}.json` → 基于 progress.json 重建（从 concepts[] 提取 cleared/stalled 状态 + 最终诊断）。
@@ -216,6 +231,7 @@ grep -A2 "\"${N}\"" progress.json | grep passed
 - 每次会话开始: 跑阶段0预检 + 读 `progress.json`
 - 每次验证后更新 `progress.json`（概念级）
 - 章末必跑文件检查清单
+- **跨会话续课 state=teaching → 记忆唤醒三句话再进 Step 2**
 
 ## 反例黑名单
 
@@ -235,6 +251,8 @@ grep -A2 "\"${N}\"" progress.json | grep passed
 | 10 | 讲完整章再验 | 每概念即验 |
 | 11 | 下次会话不知教到哪 | 每次更新 progress.json |
 | 12 | progress.json 缺概念或损坏 → 静默崩 | 启动时校验 + 章末文件检查清单 |
-| 13 | 用户拒绝回答 Step 1 直接放弃 | answer_given 分支 + 加倍追问 |
+| 13 | 用户拒绝回答 Step 1 直接放弃 | answer_given 分支 + 4轮追问 + 明确退出条件 |
 | 14 | 对费曼回应说"很好" | 直接捅，不客套 |
+| 15 | 跨会话续课从 Step 2 直接甩答案，用户忘了上下文 | 记忆唤醒三句话再续 |
+| 16 | 暂挂概念被丢进黑洞，回旋章从来不补 | global_stalled + 新章启动时自动检查回旋匹配 |
 
