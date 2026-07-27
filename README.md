@@ -75,8 +75,8 @@ PDF/PPT/Word → DNA Extract → Profile → Dependency Tree → Build Chapters 
 
 ## Evolution · 进化纪
 
-| 基线 32 | v2 74.6 | v3 78.3 | v4 81.1 | v5 84.0 |
-|----------|---------|---------|---------|---------|
+| 基线 32 | v2 74.6 | v3 78.3 | v4 81.1 | v5 84.0 | v9 87.1 | v10 90.6 |
+|----------|---------|---------|---------|---------|---------|----------|
 
 > 认得字 ≠ 懂。过得了追问，才叫懂。
 > *Knowing the words ≠ knowing the thing. Survive the interrogation, then you know.*
