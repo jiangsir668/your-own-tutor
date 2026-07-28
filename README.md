@@ -30,7 +30,7 @@ npx skills add jiangsir668/your-own-tutor
 
 ## 怎么用
 
-**中英双语支持**：中文说「备课」「学习」「换模式」，English: `teach`, `learn`, `explain`, `switch mode` 
+**中英双语支持**：中文说「备课」「学习」「换模式」「学到哪了」「通俗解释」，English: `teach`, `learn`, `explain`, `where was I`, `in plain terms`, `switch mode` 
 
 ### 建课
 
