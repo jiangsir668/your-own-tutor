@@ -163,7 +163,6 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 | socratic→translation | attempts=1(重置), in_teach→true（不变）|
 | translation→socratic | attempts=1(重置), in_teach→true（不变）|
 | lecture→socratic | lecture_step→null, in_lecture→false, in_teach→true |
-| socratic→lecture | attempts保持(不重置), in_teach→false, in_lecture→true |
 | 其他方向 | session_state 不变 |
 
 切换时 mastery_depth="shallow" → 不可跳过，从初始步骤重来。同一概念 attempted≥4 无效 → 自动降级讲解模式。
@@ -172,11 +171,11 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 
 | 学生说 | 调整 |
 |--------|------|
-| "慢一点" | 多加类比，加确认问题 |
-| "快点" | 减轮次或跳验证 |
-| "太猛了" | 每轮后给正向反馈 |
-| "不够狠" | 追问轮次+1 |
-| "换个例子" | 换 analogy_domain |
+| "慢一点"/Slower | 多加类比，加确认问题/Add analogies,check-in questions |
+| "快点"/Faster | 减轮次或跳验证/Reduce rounds or skip verify |
+| "太猛了"/Too intense | 每轮后给正向反馈/Positive feedback each round |
+| "不够狠"/Push harder | 追问轮次+1/Add one more drill round |
+| "换个例子"/Different example | 换 analogy_domain/Switch analogy domain |
 
 ---
 
@@ -190,7 +189,7 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 - reasoning_flaw → 拆成小步引导
 - confidence_collapse → 降临时难度
 
-修复后：费曼→回讲解，讲解→回解读，苏格拉底→回 Step 1 换角度，翻译→回 Step 2 换句。
+修复后/Post-repair：费曼→回Step 1(讲解/Feynman Step1)，讲解→回Step 2(解读/Lecture Step2)，苏格拉底/Socratic→回Step 1换角度，翻译/Translation→回Step 2换句。
 
 **🔴 CHECKPOINT — 放弃 / Abandon**：修复后再 fail → 提议放弃。等确认后 stall_state="abandoned"+排螺旋复习。
 
