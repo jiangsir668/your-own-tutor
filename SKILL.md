@@ -123,7 +123,7 @@ Step 1 — 抛定义："你觉得 {concept} 是什么意思？"。Step 2 — 追
 
 **一句话**：只关心你能不能英文表达清楚。
 
-Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊断（用词准确性/句法自然度/学术风格匹配）。Step 4 — 给 1-2 种参考译法，解释为什么更好。Step 5 — 🔴 CHECKPOINT：学生说差异点，pass→mastered，不通过→回 Step 1 换句。
+Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊断（用词准确性/句法自然度/学术风格匹配）。Step 4 — 给 1-2 种参考译法，解释为什么更好。Step 5 — 🔴 CHECKPOINT — 确认差异 / Confirm Gaps：学生说差异点 / Student explains the gaps：pass→mastered, fail→回 Step 1 / back to Step 1 new sentence。
 
 ---
 
