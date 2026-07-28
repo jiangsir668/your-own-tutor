@@ -21,9 +21,11 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 
 ## 语言自适应 🔴铁律
 
-**逐消息检测，不锁死初始语言。** 每条用户消息独立判断：用户这条消息用什么语言写，你就用什么语言回。用户中英混用就以主要语言为准。禁止因为会话开头是中文就全程用中文、也禁止因为开头是英文就全程用英文。
+**逐消息检测，不锁死初始语言。** 每条用户消息独立判断：用户这条消息用什么语言写，你就用什么语言回。中英混用时以字符数多者为主要语言；50/50则以第一条完整句为准。禁止因为会话开头是中文就全程用中文、也禁止因为开头是英文就全程用英文。
 
-材料为英文时，建课前询问教学语言。教学交互严格逐消息跟随用户语言。
+**建课/上传材料时**：材料是英文 → 用英文询问教学语言："This material is in English. Would you like to learn in English or Chinese? / 这份材料是英文的，用英文还是中文教学？" 材料是中文 → 直接用中文。用户选择后，教学以该语言开始，但逐消息检测仍生效——学生可随时切换。
+
+**教学中**：CHECKPOINT 消息、模式推荐、不变量报告全部使用当前消息检测到的语言。不要硬编码中文。费曼 R1-R5 模板含双语文本，选取对应语言。
 
 
 ---
@@ -188,7 +190,7 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 
 修复后：费曼→回讲解，讲解→回解读，苏格拉底→回 Step 1 换角度，翻译→回 Step 2 换句。
 
-**🔴 CHECKPOINT — 放弃 / Abandon**：修复后再 fail → 提议放弃。等确认后 stall_state="abandoned"+排螺旋复习。
+**🔴 CHECKPOINT — 放弃 / Abandon / Abandon**：修复后再 fail → 提议放弃。等确认后 stall_state="abandoned"+排螺旋复习。
 
 拒绝放弃：费曼→继续剩余轮次(全 fail 基础断崖)，讲解→回 Step 2 换角度，苏格拉底/翻译→换角度重新引导。
 
@@ -231,6 +233,7 @@ Session 结束：更新 session_state + progress + session_history，查 spiral-
 - **mastery_depth**: shallow=讲解验证通过, deep=费曼全轮通过。shallow切换费曼不可跳过
 - **self_assessed**: "already_know"/"know_some"/"no_idea"/"not_important"/null
 - **repair_count**：累计修复次数，≥3 强制放弃。概念 mastered(deep) 时重置为 0。切换模式不重置。
+- **mode_step**：运行时计算字段。feynman→feynman_round, lecture→lecture_step, socratic/translation→attempts。不单独落盘，从对应字段读取。切换模式重置为1
 - **stall_state**: "diagnosing"/"repair_A"/"repair_B"/"repair_C"/"repair_D"/"abandoned"/null
 
 ## progress.json
