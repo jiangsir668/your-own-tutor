@@ -7,12 +7,14 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 
 ## 触发词
 
-"备课"、"教我"、"学习"、"继续"、"学到哪了"、"讲一下"、"怎么理解"、"通俗解释"、上传课件 (EN: "teach", "learn", "resume", "explain", "switch mode")
+"备课"、"教我"、"学习"、"继续"、"学到哪了"、"讲一下"、"怎么理解"、"通俗解释"、上传课件  ·  EN triggers: "teach", "learn", "continue", "where was I", "explain", "in plain terms", "switch mode"
 
 ## 启动规则
 
-- "教我第X章" → 有课直接进，没课走建课
-- "学习"/"学到哪了" → 读 progress 一口报进度+续课
+中英文通用。触发词路由：
+- "教我第X章" / "teach me Ch X" → 有课直接进，没课走建课
+- "学习" / "学到哪了" / "learn" / "where was I" → 读 progress 一口报进度+续课
+- "继续" / "continue" → 续课
 - 用户提问 → 立刻答，不沉默
 
 ---
@@ -116,7 +118,7 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 
 # 模式切换
 
-## 用户说"换模式"时的标准响应
+## 用户说"换模式" / "switch mode" 时的标准响应
 
 **Step 1 — 列出四模式**：1.讲解—我给你讲透你再讲回来 2.费曼—你讲我来挑刺 3.苏格拉底—我问你走到结论 4.翻译—只关心你英文表达
 
@@ -209,7 +211,7 @@ Session 结束：更新 session_state + progress + session_history，查 spiral-
       "mastery": "untouched|skipped|exposed|practicing|mastered",
       "mastery_depth": "shallow|deep", "self_assessed": null,
       "attempts": 0, "feynman_round": null, "last_result": null,
-      "feynman_score": null, "stall_state": null, "lecture_step": null
+      "feynman_score": null, "stall_state": null, "lecture_step": null, "repair_count": 0
     }]
   }]
 }
@@ -217,6 +219,7 @@ Session 结束：更新 session_state + progress + session_history，查 spiral-
 - **difficulty**: 1=定义→2轮, 2=应用→3轮, 3=分析→5轮, 4=创新→5+轮
 - **mastery_depth**: shallow=讲解验证通过, deep=费曼全轮通过。shallow切换费曼不可跳过
 - **self_assessed**: "already_know"/"know_some"/"no_idea"/"not_important"/null
+- **repair_count**：累计修复次数，≥3 强制放弃
 - **stall_state**: "diagnosing"/"repair_A"/"repair_B"/"repair_C"/"repair_D"/"abandoned"/null
 
 ## progress.json
