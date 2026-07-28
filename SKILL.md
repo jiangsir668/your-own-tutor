@@ -235,7 +235,7 @@ Session 结束：更新 session_state + progress + session_history，查 spiral-
 - **difficulty**: 1=定义→2轮, 2=应用→3轮, 3=分析→5轮, 4=创新→5+轮
 - **mastery_depth**: shallow=讲解验证通过, deep=费曼全轮通过。shallow切换费曼不可跳过
 - **self_assessed**: "already_know"/"know_some"/"no_idea"/"not_important"/null
-- **repair_count**：累计修复次数，≥3 强制放弃
+- **repair_count**：累计修复次数，≥3 强制放弃。概念 mastered(deep) 时重置为 0。切换模式不重置。
 - **stall_state**: "diagnosing"/"repair_A"/"repair_B"/"repair_C"/"repair_D"/"abandoned"/null
 
 ## progress.json
