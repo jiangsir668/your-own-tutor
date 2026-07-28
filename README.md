@@ -1,46 +1,72 @@
-# 教程大师 · Jiaocheng
+# 教程大师 — 全自动 AI 互动教学
 
-> 将资料一站式生成客制化教程。
-> *Drop materials. Auto-generate personalized courses.*
-> 说「学习」随时续课。Darwin 90.8分。
+> 上传课件 → AI 自动拆课 → 四模式教学 → 费曼追问 → 错题本 + 螺旋复习 → Obsidian 同步
+>
+> **你来当讲师，AI 来挑刺。**
 
 ---
 
-## What · 何物
+## 跟 ChatGPT/豆包有什么不一样
 
-扔材料——PDF、PPT、Word。自动拆解，萃取脉络，按你的偏好织成课。每教一个概念不放过你：先让你用自己话说，再亮标准答案对照，费曼追身打到你再也不能含混其词。过不了，不准往下。
+| | 豆包/通用 AI | 教程大师 |
+|---|---|---|
+| 讲完就结束 | ✅ | ✅ |
+| 讲完让你复述 | ❌ | ✅ **费曼追问 2-5 轮** |
+| 答不上来诊断根因 | ❌ | ✅ 五种卡壳类型 + 四种修复策略 |
+| 跨会话记住进度 | ❌ | ✅ 中断续接，说"学习"就续课 |
+| 螺旋复习+错题本 | ❌ | ✅ 自动排期+强制清队列 |
+| 一键换教学方式 | ❌ | ✅ 四种模式即时切 |
 
-*Drop materials — PDF, PPT, Word. Auto-extract. Six-stage pipeline. Every concept: first you explain in your own words. Then we compare against the answer. Then Feynman interrogation until you can't hide behind vagueness. No pass, no advance.*
 
-说「学习」随时续课。永远知道教到哪了。
-*Say "学习" to resume. Always knows exactly where you left off.*
+## 四种教学模式
 
-## Install · 安装
+### 讲解模式 — "我先给你讲透，你再给我讲回来"
+
+适合新概念、零基础。
+
+AI 一字不差输出原文 → 零基础大白话拆解 → 然后你用自己的话复述。讲对了过关，讲偏了换角度重讲。
+
+### 费曼模式 — "你来讲，我来挑刺" 🔥
+
+适合深度理解。
+
+AI 挤完核心知识，一句话讲完——然后你开始讲。R1"用你自己的话解释" → R2"条件变了会怎样" → R3"什么情况不适用" → R4"跟前面学的有什么关系" → R5"有什么局限"。每次答不上来，AI 不是给答案，是诊断：概念没吃透还是推理断了还是前面的基础漏了，然后换个角度让你重新来。**全部轮次 fail → 判基础断崖 → 建议回溯前置章节。**
+
+### 苏格拉底模式 — "我不讲，问到你走到结论"
+
+适合批判思维、方法论。
+
+AI 一个问题接一个问题，让你自己推翻自己不完整的理解，一步步走到结论。
+
+### 翻译模式 — "只关心你能不能英文表达清楚"
+
+适合英文学术写作。AI 给原文 → 你翻译 → 三维诊断（用词/句法/风格）→ 给参考 → 你说出差在哪。
+
+
+## 安装
 
 ```bash
-mkdir -p .claude/skills/your-own-tutor
-curl -o .claude/skills/your-own-tutor/SKILL.md \
-  https://raw.githubusercontent.com/jiangsir668/your-own-tutor/main/SKILL.md
+npx skills add alchaincyf/jiaocheng
 ```
 
-## The Pipeline · 流水线
+## 怎么用
 
-```
-PDF/PPT/Word → DNA → Profile → Dependency Tree → Build Chapters → ⚡Teach→Ask→Compare→Verify→Judge
-```
+**备课**：上传课件 PPT/PDF/DOCX → AI 自动拆章拆概念 → 问"哪些你已经会了？" → 确认架构 → 进教学。
 
-每个概念即教即验。*Every concept verified immediately.*
+**学习**：说"学习" → 一口报进度（学哪章/卡哪/连续学了几天）→ 断点续接追问或修复。
 
-## What It Eats · 能吃
+**换模式**：任何时候说"换模式" → 列出四种模式 + 根据当前知识点推荐最优 + 等确认。
 
-| PDF | PPT | Word |
-|-----|-----|------|
-| `pdftotext` + `pdftoppm` | LibreOffice → PDF | python-docx |
+**学到哪了**：说"学到哪了" → 报全部课程进度 + 可直接续课。
 
-## Evolution · 进化纪
 
-| 基线 32 | v5 84.0 | v10 90.6 | v17 90.8 |
-|----------|---------|----------|----------|
+## 质量保证
 
-> 认得字 ≠ 懂。过得了追问，才叫懂。
-> *Survive the interrogation, then you know.*
+- 10/10 自动化测试全绿（费曼中间态、模式切换、卡壳天花板、不变检查）
+- 三轮多 Agent 独立审计（逻辑冲突清零）
+- 六项 Session 结束自检（字段缺失/状态冲突/残留数据自动阻断）
+- Darwin 评分: **85/100 (A级)**
+
+## License
+
+MIT | 花叔 [@alchaincyf](https://github.com/alchaincyf)
