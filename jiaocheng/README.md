@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/skilltest-27%2F29%20passed-success?style=for-the-badge" />
   <img src="https://img.shields.io/badge/tests-56%2F56%20passed-green?style=for-the-badge" />
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/platform-Claude%20Desktop%20%7C%20Claude%20Code-lightgrey?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/platform-Claude%20Desktop%20only-grey?style=for-the-badge&labelColor=black&color=555" />
 </p>
 
 > [!NOTE]
@@ -44,34 +44,28 @@ Jiaocheng（教程）把任何课件——PDF 幻灯片、讲义、教材——�
 
 ---
 
-## 🚀 Quick Start / 快速开始
+## ⚡ Quick Start / 快速开始
+
+> [!WARNING]
+> **Claude Desktop only. 仅支持桌面端。** This skill runs on Claude Desktop (Cowork mode, Pro/Max subscription). It does NOT run on Claude Code, Claude API, or web Claude.ai. The agent architecture spoofs isolated agents via inline prompts — no external dependencies, no API keys, no terminal commands.
+>
+> **仅支持 Claude Desktop（Cowork 模式，Pro/Max 订阅）。** 不支持 Claude Code、Claude API 或网页版 Claude.ai。Agent 架构通过内联 prompt 模拟独立 agent——无需外部依赖、无需 API Key、无需终端命令。
 
 ### Prerequisites / 前提
-- Claude Desktop (Pro/Max) or Claude Code
-- Obsidian Vault (optional — course files auto-sync)
-- Claude Desktop（Pro/Max）或 Claude Code
-- Obsidian Vault（可选——课程文件自动同步）
+- Claude Desktop (Pro/Max) — Cowork mode
+- Obsidian Vault (optional — course files auto-sync to your vault)
+- Claude Desktop（Pro/Max）— Cowork 模式
+- Obsidian Vault（可选——课程文件自动同步至你的知识库）
 
 ### Install / 安装
 
-#### Claude Desktop
-1. Open Claude Desktop → Skills panel
-2. Import `SKILL.md` from this repo
-3. Done. Type `jiaocheng` or upload a PDF.
+1. Open Claude Desktop → Skills panel → Import `SKILL.md`
+2. Type `jiaocheng` or upload a PDF
+3. Done.
 
-#### Claude Desktop
-1. 打开 Claude Desktop → Skills 面板
-2. 导入本仓库的 `SKILL.md`
-3. 完成。输入"jiaocheng"或上传课件。
-
-#### Claude Code
-```bash
-cd ~/Documents/Obsidian\ Vault
-mkdir -p .claude/skills/jiaocheng
-cp SKILL.md .claude/skills/jiaocheng/SKILL.md
-claude
-# Then type: jiaocheng
-```
+1. 打开 Claude Desktop → Skills 面板 → 导入 `SKILL.md`
+2. 输入"jiaocheng"或上传课件
+3. 完成。
 
 ### First Run / 首次运行
 ```
