@@ -135,7 +135,7 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 
 **Step 2 — 推荐**（根据concept状态）：
 
-| 状态 | 推荐 | 理由 |
+| 状态/State | 推荐/Recommend | 理由 |
 |------|------|------|
 | mastery=untouched, 零基础 | ①讲解 | "第一次碰，先讲透再复述" |
 | mastery=exposed, 已听 | ②费曼 | "听过一遍了，换你来讲" |
@@ -143,8 +143,8 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 | 卡壳中(stall_state≠null) | 概念不清→①, 推理断→③ | "换种方式看看" |
 | mastery_depth=shallow | ②费曼 | "粗验证不够，深挖一遍" |
 | difficulty≥3 且未 deep | ②费曼 | "这难度需要费曼深究" |
-| 批判思维/伦理 | ③苏格拉底 | "苏格拉底适合这种内容" |
-| 英文写作 | ④翻译 | "关键是英文表达" |
+| 批判思维/伦理/Ethics | ③苏格拉底/Socratic |
+| 英文写作/EN Writing | ④翻译/Translation |
 
 **Step 3 — 等确认**：推荐后🔴 CHECKPOINT，等用户选编号。
 
@@ -265,7 +265,7 @@ Session 结束：更新 session_state + progress + session_history，查 spiral-
 1. mastery=mastered 但 mastery_depth 为空 → 阻断，补设
 2. repair_count≥3 但 mastery!="mastered" 且 stall_state≠"abandoned" → 阻断，补标 abandoned
 3. session_state 四个布尔有 ≥2 个为 true → 阻断，修正为仅当前模式对应的那个
-4. teaching_mode="feynman"且feynman_round≠null但in_feynman_drill=false → 阻断 / teaching_mode="lecture"且lecture_step≠null但in_lecture=false → 阻断。修正session_state
+4. teaching_mode="feynman"且feynman_round≠null但in_feynman_drill=false→阻断 / teaching_mode="lecture"且lecture_step≠null但in_lecture=false→阻断 / teaching_mode=socratic/translation且attempts>0但in_teach=false→阻断。修正session_state
 5. spiral-track force_review=true 但 queue 中 pending=0 → 阻断，设 force_review=false
 6. mastery_depth="shallow" 且 teaching_mode="feynman" → 警告，用户应知悉
 
