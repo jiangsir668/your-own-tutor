@@ -1,0 +1,11 @@
+# Obsidian
+.obsidian/
+**/.DS_Store
+
+# Python
+*.pyc
+__pycache__/
+*.egg-info/
+
+# Node
+node_modules/
