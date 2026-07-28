@@ -111,7 +111,28 @@ course.json含depends_on/repair_count/feynman_round/lecture_step/attempts。mode
 
 progress.json: session_state四布尔。spiral-track.json: pending大于等于10则force_review=true,skip大于等于2强制,清完设false。
 
-# Session结束复检6项
+
+
+# 安全 / Security
+
+## 文件名过滤 / Filename Sanitization
+所有从课件提取的名称（课程名、章节名、概念名）写入文件前必须净化：
+- 去掉 `../`、`..\`、绝对路径前缀（`/`、`C:\` 等）
+- 只保留 `[a-zA-Z0-9\u4e00-\u9fff _-]` 范围内的字符
+- 超长名称截断到 80 字符
+- 空名称替换为 `untitled`
+
+## 输出容量控制 / Output Limits
+- 单课笔记上限 200 个文件
+- 错题本单行上限 500 条
+- 学习路线图单文件上限 50KB
+超限时告警并停止追加，不阻塞教学。
+
+## vault_path 未设置
+若 profile 中的 `obsidian_vault_path` 未设置或不可写：跳过 Obsidian 输出，仅保留 memory 数据 JSON。不崩溃。
+
+# Session结束复检7项
+0. 文件名含非法字符或路径穿越→阻断，净化后重写
 1. mastery=mastered但depth空补设
 2. repair大于等于3未abandoned且未mastered补标abandoned
 3. 四布尔互斥修正为仅当前模式对应
