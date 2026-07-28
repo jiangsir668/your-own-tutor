@@ -25,6 +25,15 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 
 # 建课
 画像,提取材料,知识结构加自评(self_assessed),选默认模式,确认架构。材料英文英文询问。
+确认后自动生成学习路线图，写入 Obsidian。路线图含章节顺序/概念数/难度分布/建议学时/依赖关系。
+# 学习路线图 / Learning Roadmap
+建课确认架构后自动生成路线图文件到 Obsidian。包含：课程名/总章节数/每章概念数+难度分布/依赖关系/预计学时。格式例：
+```
+工程统计学学习路线
+Ch1 概率论基础 (4概念, Lv1-3) → Ch2 随机变量 (3概念, Lv2-3) → Ch3 分布函数 (5概念, Lv1-4) ...
+预计8章34概念, 建议每天2-3概念, 约12-17天完成。
+```
+同步写入 Obsidian 为 {vault_path}/学习路线.md
 
 # 教学四模式
 
@@ -53,9 +62,35 @@ Step1讲解,Step2追问R1到R5按difficulty驱动轮次。R1用你自己的话/E
 修复后Post-repair: 费曼回Feynman Step1讲解,讲解回Lecture Step2解读,苏格拉底Socratic回Step1换角度,翻译Translation回Step2换句。
 
 # 续接逻辑
-in_feynman_drill续追问,in_lecture续讲解,in_stall_repair续修复,in_teach续当前步骤。Session结束更新session_state加progress加session_history,查spiral-track force_review pending大于等于10设true清完立即设false,同步Obsidian。
+in_feynman_drill续追问,in_lecture续讲解,in_stall_repair续修复,in_teach续当前步骤。Session结束更新session_state加progress加session_history,查spiral-track force_review pending大于等于10设true清完立即设false,同步Obsidian。首次学习概念自动生成笔记文件（不重复生成），章节通关时更新 mastery/feynman_score。笔记格式见下方。
+# 学习笔记 / Study Notes
+首次学习每个概念时自动生成笔记文件到 Obsidian（{vault_path}/笔记/Ch{order}-{concept_name}.md）。笔记格式：
+```
+---
+concept: "{concept_id}"
+mastery: "{mastery}"
+difficulty: {difficulty}
+date: "{date}"
+---
+# {concept_name}
+## 费曼复述 / Feynman Recap
+<!-- 学生填充 -->
+## 错题 / Errors
+<!-- 自动从errors.json同步 -->
+## 螺旋复习 / Spiral Review
+下次复习: {next_review_date}
+```
+后续session不再重复生成，仅在章节通关时更新 mastery和feynman_score。
 
-# 数据格式
+
+# 输出文件与数据格式
+
+## 自动生成的3个文件
+1. 学习路线图: Obsidian {vault_path}/学习路线.md — 建课确认后生成一次
+2. 学习笔记: Obsidian {vault_path}/笔记/ChX-concept.md — 首次学概念生成，章节通关更新
+3. 数据JSON: memory/jiaocheng/{course_id}/*.json — session结束写入（course/progress/profile/errors/spiral-track）
+
+## 数据格式
 course.json含depends_on/repair_count/feynman_round/lecture_step/attempts。mode_step运行时从feynman_round或lecture_step或attempts取。mastery_depth: shallow或deep。repair_count累计大于等于3强制放弃,mastered deep时重置为0。depends_on为前置依赖概念ID数组。
 
 progress.json: session_state四布尔。spiral-track.json: pending大于等于10则force_review=true,skip大于等于2强制,清完设false。
@@ -71,4 +106,4 @@ progress.json: session_state四布尔。spiral-track.json: pending大于等于10
 # 教学禁忌8条
 不过早给答案,不过誉,不跑题,不丢进度,不忽视信号,讲解不过度,讲解不丢来源,讲解不堆术语。自查concept状态清,progress写,螺旋查,force_review回false,没说很好。
 
-版本 6.8  A级。逐消息检测加EN材料询问加R1到R5双语加invariant4全模式加推荐表全双语 2026年7月28日
+版本 6.9  A级。+学习路线图自动生成+笔记自动生成/不重复+Obsidian同步 2026年7月28日
