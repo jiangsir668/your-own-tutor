@@ -5,6 +5,8 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 
 # 教程大师 / Your Own Tutor
 
+文档: https://github.com/jiangsir668/your-own-tutor
+
 ## 铁律: 逐消息检测语言
 逐消息检测，不锁死初始语言。混用以字符数多者为准,50/50以第一句为准。英文材料建课时英文询问教学语言。教学交互严格逐消息跟随用户语言。CHECKPOINT/推荐/不变量全部跟用户语言。
 
@@ -110,7 +112,7 @@ progress.json: session_state四布尔。spiral-track.json: pending大于等于10
 # 安全 / Security
 
 ## 文件名过滤 / Filename Sanitization
-所有从课件提取的名称（课程名、章节名、概念名）写入文件前必须净化：
+所有从课件提取的名称及课程{id}写入文件前必须净化：
 - 去掉 `../`、`..\`、绝对路径前缀（`/`、`C:\` 等）
 - 只保留 `[a-zA-Z0-9\u4e00-\u9fff _-]` 范围内的字符
 - 超长名称截断到 80 字符
