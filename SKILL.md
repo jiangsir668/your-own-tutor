@@ -287,5 +287,5 @@ Session 结束：更新 session_state + progress + session_history，查 spiral-
 
 ---
 
-版本 6.7 — 逐消息检测+EN材料询问+推荐表全双语+invariant#4扩展+安全修复 (2026-07-28)
+版本 6.8 — 逐消息检测+EN材料询问+推荐表全双语+invariant#4扩展+安全修复 (2026-07-28)
 
