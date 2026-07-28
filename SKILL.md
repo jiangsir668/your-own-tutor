@@ -242,6 +242,21 @@ Session 结束：更新 session_state + progress + session_history，查 spiral-
 
 ---
 
+
+
+# Session 结束复检（每次必须执行）
+
+写完所有数据后，逐项检查当前 concept：
+
+1. mastery=mastered 但 mastery_depth 为空 → 阻断，补设
+2. repair_count≥3 但 mastery!="mastered" 且 stall_state≠"abandoned" → 阻断，补标 abandoned
+3. session_state 四个布尔有 ≥2 个为 true → 阻断，修正为仅当前模式对应的那个
+4. mode_step 不为 null 但 teaching_mode 对应的 session_state 为 false → 阻断，修正
+5. spiral-track force_review=true 但 queue 中 pending=0 → 阻断，设 force_review=false
+6. mastery_depth="shallow" 且 teaching_mode="feynman" → 警告，用户应知悉
+
+---
+
 # 教学禁忌
 
 1. **别过早给答案** — 卡壳→诊断→修复→重试。两次仍不行→记 errors+spiral
