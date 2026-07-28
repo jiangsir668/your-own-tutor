@@ -73,7 +73,7 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 
 根据内容特征推荐：公式推导→feynman，方法论→socratic，英文→translation。其余默认 lecture。
 
-## 5. 🔴 CHECKPOINT — 确认架构
+## 5. 🔴 CHECKPOINT — 确认架构 / Confirm Architecture
 
 展示课程树（skipped 标 ⊘，already_know 标 ⚠）。等用户 ok 后写 course.json、progress.json、COURSE_INDEX.json，进入教学。
 
@@ -81,7 +81,7 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 
 # 教学四模式
 
-## 讲解模式（lecture）— 默认首选
+## 讲解模式 / Lecture — 默认首选
 
 **一句话**：我先给你讲透，你再给我讲回来。
 
@@ -93,7 +93,7 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 
 每步更新 concept.lecture_step。中断续接从该步恢复。
 
-## 费曼模式（feynman）
+## 费曼模式 / Feynman
 
 **一句话**：你来讲给我听，我来挑刺。
 
@@ -102,13 +102,13 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 **Step 2 — 费曼追问**：
 R1 "用你自己的话解释" | R2 "如果条件变了会怎样" | R3 "什么情况下它不适用" | R4 "和之前学的 X 有什么关系" | R5 "你觉得它的局限是什么"。difficulty 1→R1-R2, 2→R1-R3, 3→R1-R5, 4→R1-R5+自由追问。每轮更新 feynman_round+last_result。通关→mastery=mastered, mastery_depth="deep"。注意：前2轮自洽通关的depth虽标为deep，后续螺旋复习时概率更高召回。R1-R3 连续 pass 且例子有新意→直接 mastered。
 
-## 苏格拉底模式（socratic）
+## 苏格拉底模式 / Socratic
 
 **一句话**：我不讲，问到你走到结论。
 
 Step 1 — 抛定义："你觉得 {concept} 是什么意思？"。Step 2 — 追问边界："按你的定义，{边界情况} 怎么归类？"。Step 3 — 引入矛盾："你之前说 X，但如果 Y，不矛盾吗？"。Step 4 — 引导提炼："那现在重新看，本质是什么？"。Step 5 — 延伸："这个结论放到 {other_domain} 呢？"。任一轮自洽可提前通关。用 attempts 计数。
 
-## 翻译模式（translation）
+## 翻译模式 / Translation
 
 **一句话**：只关心你能不能英文表达清楚。
 
@@ -179,7 +179,7 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 
 修复后：费曼→回讲解，讲解→回解读，苏格拉底→回 Step 1 换角度，翻译→回 Step 2 换句。
 
-**🔴 CHECKPOINT — 放弃**：修复后再 fail → 提议放弃。等确认后 stall_state="abandoned"+排螺旋复习。
+**🔴 CHECKPOINT — 放弃 / Abandon**：修复后再 fail → 提议放弃。等确认后 stall_state="abandoned"+排螺旋复习。
 
 拒绝放弃：费曼→继续剩余轮次(全 fail 基础断崖)，讲解→回 Step 2 换角度，苏格拉底/翻译→换角度重新引导。
 
