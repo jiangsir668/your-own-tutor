@@ -137,4 +137,4 @@ progress.json: session_state四布尔。spiral-track.json: pending大于等于10
 # 教学禁忌8条
 不过早给答案,不过誉,不跑题,不丢进度,不忽视信号,讲解不过度,讲解不丢来源,讲解不堆术语。自查concept状态清,progress写,螺旋查,force_review回false,没说很好。
 
-版本 6.9  A级。+学习路线图自动生成+笔记自动生成/不重复+Obsidian同步 2026年7月28日
+版本 7.1 A级。{id}净化+苏格拉底反空壳验证+frontmatter去重 2026年7月28日
