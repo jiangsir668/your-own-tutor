@@ -137,14 +137,14 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 
 | 状态/State | 推荐/Recommend | 理由 |
 |------|------|------|
-| mastery=untouched, 零基础 | ①讲解 | "第一次碰，先讲透再复述" |
-| mastery=exposed, 已听 | ②费曼 | "听过一遍了，换你来讲" |
-| mastery=practicing, 追问中 | ②费曼 | "追问进行中，建议走完" |
-| 卡壳中(stall_state≠null) | 概念不清→①, 推理断→③ | "换种方式看看" |
-| mastery_depth=shallow | ②费曼 | "粗验证不够，深挖一遍" |
-| difficulty≥3 且未 deep | ②费曼 | "这难度需要费曼深究" |
-| 批判思维/伦理/Ethics | ③苏格拉底/Socratic |
-| 英文写作/EN Writing | ④翻译/Translation |
+| mastery=untouched/First-touch | ①讲解/Lecture | "第一次碰，先讲透再复述 / First time, let me explain thoroughly" |
+| mastery=exposed/Heard | ②费曼/Feynman | "听过一遍了，换你来讲 / You have heard this, now you teach" |
+| mastery=practicing/Drilling | ②费曼/Feynman | "追问进行中，建议走完 / Drilling in progress, finish it" |
+| 卡壳中/Stalled | ConceptGap→①,Reasoning→③ | "换种方式看看 / Try another approach" |
+| mastery_depth=shallow | ②费曼/Feynman | "粗验证不够，深挖一遍 / Shallow check only, go deeper" |
+| difficulty≥3/未deep/NotDeep | ②费曼/Feynman | "这难度需要费曼深究 / This difficulty needs deep Feynman drill" |
+| 批判思维/伦理/Ethics | ③苏格拉底/Socratic | "" |
+| 英文写作/EN Writing | ④翻译/Translation | "关键是英文表达 / What matters is English expression" |
 
 **Step 3 — 等确认**：推荐后🔴 CHECKPOINT，等用户选编号。
 
@@ -160,8 +160,8 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 | socratic→lecture | lecture_step=1, in_teach→false, in_lecture→true |
 | translation→feynman | feynman_round=1, in_teach→false, in_feynman_drill→true |
 | translation→lecture | lecture_step=1, in_teach→false, in_lecture→true |
-| socratic→translation | mode_step=1, in_teach→true（不变）|
-| translation→socratic | mode_step=1, in_teach→true（不变）|
+| socratic→translation | attempts=1(重置), in_teach→true（不变）|
+| translation→socratic | attempts=1(重置), in_teach→true（不变）|
 | 其他方向 | session_state 不变 |
 
 切换时 mastery_depth="shallow" → 不可跳过，从初始步骤重来。同一概念 attempted≥4 无效 → 自动降级讲解模式。
