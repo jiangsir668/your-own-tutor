@@ -70,4 +70,8 @@ npx skills add alchaincyf/jiaocheng
 
 ## License
 
-MIT | 花叔 [@alchaincyf](https://github.com/alchaincyf)
+
+
+---
+
+作者 [@jiangsir668](https://github.com/jiangsir668)
