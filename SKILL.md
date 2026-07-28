@@ -46,7 +46,7 @@ Step1讲解,Step2追问R1到R5按difficulty驱动轮次。R1用你自己的话/E
 卡壳: 先判普通卡壳attempts大于等于2且最新fail或连续2次partial,修复,继续。全部约定轮次走完且每轮都fail则基础断崖。中间态pass轮次大于等于半数则mastered deep,否则普通卡壳修复后重走未过轮次。
 
 ## 苏格拉底/Socratic
-5轮追问链。任一轮自洽可提前通关。mastery_depth=deep。
+5轮追问链。任一轮自洽可提前通关。自洽标准：学生需给出具体解释或新例子，不能仅说"我懂了"。空洞确认不视为自洽。mastery_depth=deep。
 
 ## 翻译/Translation
 5步: 原文,翻译,三维诊断用词句法风格,参考,CHECKPOINT学生说差异点。pass则mastered,fail则回Step1换句repair_count加1。累计fail大于等于3强制放弃。
@@ -66,12 +66,6 @@ in_feynman_drill续追问,in_lecture续讲解,in_stall_repair续修复,in_teach�
 # 学习笔记 / Study Notes
 首次学习每个概念时自动生成笔记文件到 Obsidian（{vault_path}/笔记/Ch{order}-{concept_name}.md）。笔记格式：
 ```
----
-concept: "{concept_id}"
-mastery: "{mastery}"
-difficulty: {difficulty}
-date: "{date}"
----
 # {concept_name}
 ## 费曼复述 / Feynman Recap
 <!-- 学生填充 -->
