@@ -74,7 +74,7 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 **必须问自评**（写入 concept.self_assessed，跨会话保留）："这些概念你哪些会了？" → 每概念选：已经会了 / 知道一点 / 完全不懂 / 不重要
 
 - "已经会了" → mastery=exposed，后续快速验证 1 轮。其他课已 mastered 同名概念→提示确认。
-- "知道一点" → 正常教学，可能缩短轮次
+- "知道一点" → 正常教学，首轮自洽则缩短一个轮次；否则正常
 - "完全不懂" → 正常教学
 - "不重要" → mastery=skipped，跳过。中途想改主意→说"我要学这个"，mastery重置为untouched，重新加入教学队列
 
@@ -162,6 +162,8 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 | translation→lecture | lecture_step=1, in_teach→false, in_lecture→true |
 | socratic→translation | attempts=1(重置), in_teach→true（不变）|
 | translation→socratic | attempts=1(重置), in_teach→true（不变）|
+| lecture→socratic | lecture_step→null, in_lecture→false, in_teach→true |
+| socratic→lecture | attempts保持(不重置), in_teach→false, in_lecture→true |
 | 其他方向 | session_state 不变 |
 
 切换时 mastery_depth="shallow" → 不可跳过，从初始步骤重来。同一概念 attempted≥4 无效 → 自动降级讲解模式。
@@ -190,7 +192,7 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 
 修复后：费曼→回讲解，讲解→回解读，苏格拉底→回 Step 1 换角度，翻译→回 Step 2 换句。
 
-**🔴 CHECKPOINT — 放弃 / Abandon / Abandon**：修复后再 fail → 提议放弃。等确认后 stall_state="abandoned"+排螺旋复习。
+**🔴 CHECKPOINT — 放弃 / Abandon**：修复后再 fail → 提议放弃。等确认后 stall_state="abandoned"+排螺旋复习。
 
 拒绝放弃：费曼→继续剩余轮次(全 fail 基础断崖)，讲解→回 Step 2 换角度，苏格拉底/翻译→换角度重新引导。
 
