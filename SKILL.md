@@ -114,7 +114,7 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 **Step 1 — 讲解**：按 difficulty 控制篇幅（1 级 3 句，2 级 5 句，3 级 8 句，4 级 10 句）。讲完直接甩追问。不说"好""对""很好"。
 
 **Step 2 — 费曼追问**：
-R1 "用你自己的话解释" | R2 "如果条件变了会怎样" | R3 "什么情况下它不适用" | R4 "和之前学的 X 有什么关系" | R5 "你觉得它的局限是什么"。difficulty 1→R1-R2, 2→R1-R3, 3→R1-R5, 4→R1-R5+自由追问。每轮更新 feynman_round+last_result。通关→mastery=mastered, mastery_depth="deep"。注意：前2轮自洽通关的depth虽标为deep，后续螺旋复习时概率更高召回。R1-R3 连续 pass 且例子有新意→直接 mastered。
+R1 "用你自己的话解释 / Explain in your own words" | R2 "条件变了会怎样 / What if conditions change?" | R3 "什么情况不适用 / When does it fail?" | R4 "跟前面学的有什么关系 / How does it connect to X?" | R5 "局限是什么 / What are the limits?"。difficulty 1→R1-R2, 2→R1-R3, 3→R1-R5, 4→R1-R5+自由追问。每轮更新 feynman_round+last_result。通关→mastery=mastered, mastery_depth="deep"。注意：前2轮自洽通关的depth虽标为deep，后续螺旋复习时概率更高召回。R1-R3 连续 pass 且例子有新意→直接 mastered。
 
 ## 苏格拉底模式 / Socratic
 
