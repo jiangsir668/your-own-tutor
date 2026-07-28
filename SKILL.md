@@ -83,12 +83,27 @@ date: "{date}"
 后续session不再重复生成，仅在章节通关时更新 mastery和feynman_score。
 
 
+
+# 错题本 / Error Log
+每次记录错误时同步到 Obsidian ({vault_path}/错题本.md)。独立于学习笔记，跨课程汇总。格式:
+```
+---
+updated: "{date}"
+---
+# 错题本 / Error Log
+| 日期 | 课程 | 概念 | 类型 | 症状 | 状态 |
+|------|------|------|------|------|------|
+| 07-28 | 工程统计学 | 条件概率 | conceptual_gap | P(A|B)与P(A∩B)混淆 | 未解决 |
+| 07-29 | 工程统计学 | 中心极限定理 | reasoning_flaw | 样本量与分布关系推理断 | 已解决 |
+```
+每新增错误追加一行。错误解决后更新状态列。session结束自动同步。
+
 # 输出文件与数据格式
 
-## 自动生成的3个文件
-1. 学习路线图: Obsidian {vault_path}/学习路线.md — 建课确认后生成一次
-2. 学习笔记: Obsidian {vault_path}/笔记/ChX-concept.md — 首次学概念生成，章节通关更新
-3. 数据JSON: memory/jiaocheng/{course_id}/*.json — session结束写入（course/progress/profile/errors/spiral-track）
+## 自动生成的4个文件
+1. 学习路线图 / Learning Roadmap: Obsidian {vault_path}/学习路线.md — 建课确认后生成一次
+2. 学习笔记 / Study Notes: Obsidian {vault_path}/笔记/ChX-concept.md — 首次学概念生成，章节通关更新
+3. 错题本 / Error Log: Obsidian {vault_path}/错题本.md — 每次记录错误追加一行 memory/jiaocheng/{course_id}/*.json — session结束写入（course/progress/profile/errors/spiral-track）
 
 ## 数据格式
 course.json含depends_on/repair_count/feynman_round/lecture_step/attempts。mode_step运行时从feynman_round或lecture_step或attempts取。mastery_depth: shallow或deep。repair_count累计大于等于3强制放弃,mastered deep时重置为0。depends_on为前置依赖概念ID数组。
