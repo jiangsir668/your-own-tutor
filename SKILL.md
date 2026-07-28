@@ -30,7 +30,7 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
    - 再查 session_state → 断点续接（in_feynman_drill→续追问，in_lecture→续讲解，in_stall_repair→续修复，in_teach→重讲）
    - 正常→报进度："Ch3 概率论 → 条件概率 (practicing)，连续 5 天，继续？"
 4. mastery_depth="shallow" 且当前 teaching_mode="feynman" → 强制从费曼 R1 开始，不可跳过。
-5. self_assessed="already_know" 未 mastered → 1 轮快速验证，pass→mastered，fail→重学。
+5. self_assessed="already_know" 未 mastered 且所在章节已解锁 → 1 轮快速验证，pass→mastered，fail→重学。
 
 一口报完，不等。
 
@@ -65,7 +65,7 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 - "已经会了" → mastery=exposed，后续快速验证 1 轮。其他课已 mastered 同名概念→提示确认。
 - "知道一点" → 正常教学，可能缩短轮次
 - "完全不懂" → 正常教学
-- "不重要" → mastery=skipped，永久跳过
+- "不重要" → mastery=skipped，跳过。中途想改主意→说"我要学这个"，mastery重置为untouched，重新加入教学队列
 
 连续半章跳过→提醒。不可跳过：有未 mastered 依赖的、difficulty≥3 且无背景的、该章首概念。
 
@@ -100,7 +100,7 @@ description: "全自动课程生成与交互式教学。上传课件→自动建
 **Step 1 — 讲解**：按 difficulty 控制篇幅（1 级 3 句，2 级 5 句，3 级 8 句，4 级 10 句）。讲完直接甩追问。不说"好""对""很好"。
 
 **Step 2 — 费曼追问**：
-R1 "用你自己的话解释" | R2 "如果条件变了会怎样" | R3 "什么情况下它不适用" | R4 "和之前学的 X 有什么关系" | R5 "你觉得它的局限是什么"。difficulty 1→R1-R2, 2→R1-R3, 3→R1-R5, 4→R1-R5+自由追问。每轮更新 feynman_round+last_result。通关→mastery=mastered, mastery_depth="deep"。R1-R3 连续 pass 且例子有新意→直接 mastered。
+R1 "用你自己的话解释" | R2 "如果条件变了会怎样" | R3 "什么情况下它不适用" | R4 "和之前学的 X 有什么关系" | R5 "你觉得它的局限是什么"。difficulty 1→R1-R2, 2→R1-R3, 3→R1-R5, 4→R1-R5+自由追问。每轮更新 feynman_round+last_result。通关→mastery=mastered, mastery_depth="deep"。注意：前2轮自洽通关的depth虽标为deep，后续螺旋复习时概率更高召回。R1-R3 连续 pass 且例子有新意→直接 mastered。
 
 ## 苏格拉底模式（socratic）
 
@@ -149,6 +149,8 @@ Step 1 — 给中文原文。Step 2 — 等学生翻译。Step 3 — 三维诊�
 | socratic→lecture | lecture_step=1, in_teach→false, in_lecture→true |
 | translation→feynman | feynman_round=1, in_teach→false, in_feynman_drill→true |
 | translation→lecture | lecture_step=1, in_teach→false, in_lecture→true |
+| socratic→translation | mode_step=1, in_teach→true（不变）|
+| translation→socratic | mode_step=1, in_teach→true（不变）|
 | 其他方向 | session_state 不变 |
 
 切换时 mastery_depth="shallow" → 不可跳过，从初始步骤重来。同一概念 attempted≥4 无效 → 自动降级讲解模式。
@@ -211,7 +213,7 @@ Session 结束：更新 session_state + progress + session_history，查 spiral-
       "mastery": "untouched|skipped|exposed|practicing|mastered",
       "mastery_depth": "shallow|deep", "self_assessed": null,
       "attempts": 0, "feynman_round": null, "last_result": null,
-      "feynman_score": null, "stall_state": null, "lecture_step": null, "repair_count": 0
+      "feynman_score": null, "stall_state": null, "lecture_step": null, "repair_count": 0, "depends_on": []
     }]
   }]
 }
@@ -251,7 +253,7 @@ Session 结束：更新 session_state + progress + session_history，查 spiral-
 1. mastery=mastered 但 mastery_depth 为空 → 阻断，补设
 2. repair_count≥3 但 mastery!="mastered" 且 stall_state≠"abandoned" → 阻断，补标 abandoned
 3. session_state 四个布尔有 ≥2 个为 true → 阻断，修正为仅当前模式对应的那个
-4. mode_step 不为 null 但 teaching_mode 对应的 session_state 为 false → 阻断，修正
+4. teaching_mode="feynman"且feynman_round≠null但in_feynman_drill=false → 阻断 / teaching_mode="lecture"且lecture_step≠null但in_lecture=false → 阻断。修正session_state
 5. spiral-track force_review=true 但 queue 中 pending=0 → 阻断，设 force_review=false
 6. mastery_depth="shallow" 且 teaching_mode="feynman" → 警告，用户应知悉
 
