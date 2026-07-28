@@ -29,6 +29,23 @@ Jiaocheng（教程）把任何课件——PDF 幻灯片、讲义、教材——�
 
 ---
 
+## 🆚 Why Jiaocheng? / 与普通学习的区别
+
+| Dimension / 维度 | Traditional Learning / 传统学习 | Jiaocheng / 教程大师 |
+|---|---|---|
+| **Pacing / 节奏** | Fixed schedule. One speed for everyone. 固定进度，统一节奏。 | Adaptive. Masters a concept → auto-advances. Stuck → diagnoses + repairs. 自适应。掌握就推进，卡壳就诊断修复。 |
+| **Feedback / 反馈** | Days or weeks for homework grading. 作业批改要等几天甚至几周。 | Instant. Every answer gets a gate (✅ pass / 🔶 middle / 🔴 fail). 即时。每道题都有闸门判定。 |
+| **Memory / 记忆** | Review is your own problem. 复习全靠自己。 | Spiral review built into every note. Auto-tracks what you've mastered. 每篇笔记内置螺旋复习提醒。自动追踪掌握状态。 |
+| **Mode / 模式** | One teaching style. Take it or leave it. 一种教学方式，接不接受自己扛。 | Four modes: Lecture, Feynman (you teach), Socratic (derive yourself), Translation. 四种模式：讲解、费曼追问、苏格拉底推导、翻译。 |
+| **Tracking / 追踪** | A notebook you might lose. 笔记本，可能会丢。 | Obsidian-synced notes, error book, roadmap — all auto-updated. Obsidian 同步笔记、错题本、路线图——自动更新。 |
+| **Attention / 专注** | Teacher can't see if you're drifting. 老师看不到谁走神了。 | State anchor every message. Visible repair counter. No skipping. 每条消息状态锚点。可见的修复计数。无法跳过。 |
+| **Content / 内容** | One textbook. Hope it's good. 一本教材，碰运气。 | Upload anything. Your actual courseware. Auto-structured. 传你自己的课件，自动结构化。 |
+| **Fatigue / 疲劳** | Keep going or give up. 硬撑或放弃。 | Detects 5 failure modes. Suggests mode switch, terminology downgrade, or rest. 检测 5 种卡壳原因。建议切模式、降术语或休息。 |
+
+> **Not another chatbot. An actual tutor with a curriculum, memory, and accountability. 不是又一个聊天机器人。一个有课纲、有记忆、有追问的真正的导师。**
+
+---
+
 ## ✨ Features / 功能
 
 | Feature / 功能 | Description / 描述 |
