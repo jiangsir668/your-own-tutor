@@ -1,4 +1,4 @@
-# Your Own Tutor &middot; [![Version](https://img.shields.io/badge/version-6.1-blue)](https://github.com/jiangsir668/your-own-tutor) [![Tests](https://img.shields.io/badge/tests-10%2F10-green)](https://github.com/jiangsir668/your-own-tutor/blob/main/jiaocheng-tests.md) [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
+# Your Own Tutor &middot; [![Version](https://img.shields.io/badge/version-6.1-blue)](https://github.com/jiangsir668/your-own-tutor) [![Tests](https://img.shields.io/badge/tests-10%2F10-green)](https://github.com/jiangsir668/your-own-tutor/blob/main/jiaocheng-tests.md) [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE) [![Lang](https://img.shields.io/badge/lang-中文_|_EN-blue)]()
 
 > 你来当讲师，AI 来挑刺 —— 基于费曼学习法的 AI 互动教学 skill。
 
@@ -29,6 +29,8 @@ npx skills add jiangsir668/your-own-tutor
 ---
 
 ## 怎么用
+
+**中英双语支持**：中文说「备课」「学习」「换模式」，English: , , , 
 
 ### 建课
 
@@ -165,4 +167,5 @@ your-own-tutor/
 ## License
 
 MIT © 2026 [jiangsir668](https://github.com/jiangsir668)
+
 
