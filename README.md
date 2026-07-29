@@ -1,148 +1,234 @@
-# Your Own Tutor · 你的私人导师 &middot; [![Version](https://img.shields.io/badge/v6.8-A-blue)](https://github.com/jiangsir668/your-own-tutor) [![Tests](https://img.shields.io/badge/tests-10%2F10-green)](https://github.com/jiangsir668/your-own-tutor/blob/main/jiaocheng-tests.md) [![Darwin](https://img.shields.io/badge/darwin-A-brightgreen)](https://github.com/jiangsir668/your-own-tutor) [![License](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE) [![Lang](https://img.shields.io/badge/lang-中文_|_EN-blue)]()
+# 📚 教程大师 / Your Own Tutor — AI-Powered Interactive Learning System
 
 <p align="center">
-  <b>Upload a textbook. The AI makes <i>you</i> teach it back.</b><br>
-  <b>上传课件 → 你来讲给 AI 听 → 答不上来诊断根因 → 跨会话续课</b><br>
-  <em>Lecture · Feynman · Socratic · Translation — 4 teaching modes, bilingual, battle-tested.</em>
+  <b>Upload courseware → AI builds your course → Teaches you in 4 modes → Tracks everything</b><br>
+  上传课件 → AI 自动建课 → 四种模式教学 → 全流程追踪
 </p>
 
----
+<p align="center">
+  <img src="https://img.shields.io/badge/version-18.0-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/efaimo-A%20(94)-brightgreen?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/skilltest-27%2F29%20passed-success?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/tests-56%2F56%20passed-green?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/license-MIT-yellow?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/platform-Claude%20Desktop%20only-grey?style=for-the-badge&labelColor=black&color=555" />
+</p>
 
-## 为什么存在 / Why This Exists
-
-**ChatGPT 给你讲解。Your Own Tutor 逼你讲出来。**
-
-ChatGPT explains things to you. **Your Own Tutor makes YOU explain things to it.**
-
-基于费曼学习法——已知最有效的学习方法。你讲不清楚，就是没搞懂。这个 skill 逼你讲。每一个模糊的句子、每一个偷换的概念、每一个"我大概懂了"——都会被追问 2-5 轮。直到你真正掌握。
-
-Based on the Feynman Technique — the single most effective learning method ever studied. If you can't explain it clearly, you don't understand it. This skill makes you explain. Every fuzzy sentence, every hand-waved concept, every "I think I get it" — gets challenged for 2-5 rounds. Until you actually own it.
-
-它记得你学到哪、知道你错在哪、自动排螺旋复习、同步 Obsidian。它说你的语言——逐条消息独立检测，中英切换零压力。
-
-It remembers where you left off. It knows what you got wrong. It schedules spiral reviews. It syncs to Obsidian. It speaks your language — literally, message by message.
+> [!NOTE]
+> **English follows Chinese. All documentation is bilingual. 所有文档均为双语。**
 
 ---
 
-## 能做什么 / What It Does
+## 🎯 What Is This? / 这是什么？
 
-| 功能 / Feature | 通用 AI / Generic AI | 教程大师 / Your Own Tutor |
-|---------|:---:|:---:|
-| 讲解概念 / Explain | ✅ | ✅ |
-| **逼你复述 / Make YOU explain back** | ❌ | ✅ **费曼追问 2-5 轮 / Feynman Drill 2-5 rounds** |
-| **诊断卡壳根因 / Diagnose WHY stuck** | ❌ | ✅ **5 种卡壳类型 + 4 种修复策略** |
-| 跨会话记忆 / Cross-session memory | ❌ | ✅ 说"学习"就续课 / Say "learn" to resume |
-| 螺旋复习 + 错题本 / Spiral review + error log | ❌ | ✅ 自动排期 + 溢出强制清 / Auto-scheduled, force-cleared |
-| Obsidian 笔记同步 / Sync to Obsidian | ❌ | ✅ 学习内容 + 错题自动写入 Vault |
-| **一键切换教学方式 / Switch teaching style** | ❌ | ✅ **4 种模式即时切 / 4 modes, instant switch** |
-| **双语逐消息检测 / Bilingual per-message** | ❌ | ✅ 每条消息独立判断语言 |
-| **Session 结束自检 / Self-audit** | ❌ | ✅ **6 项不变检查阻断异常数据** |
+Jiaocheng (教程 = "tutorial" in Chinese) turns any courseware — PDF slides, lecture notes, textbooks — into a structured interactive course with **four distinct teaching modes**, automatic progress tracking, and Obsidian-synced study notes.
+
+Jiaocheng（教程）把任何课件——PDF 幻灯片、讲义、教材——变成一门结构化互动课程，配有**四种教学模式**、自动进度追踪、Obsidian 同步学习笔记。
+
+> **One PDF in. Mastery out. 一份课件进去，精通出来。**
 
 ---
 
-## 四种教学模式 / Four Teaching Modes
+## 🆚 Why Jiaocheng? / 与普通学习的区别
 
-### 🎙️ 讲解模式 / Lecture — "我讲透，你讲回来 / I explain, you explain back"
-零基础初次接触。AI 逐字输出原文 → 大白话拆解 → 1-2 轮费曼验证。`mastery_depth = shallow`。
-
-Best for first contact. AI outputs original text verbatim → plain-language breakdown → 1-2 round Feynman check.
-
-### 🔥 费曼模式 / Feynman — "你来讲，我挑刺 / YOU teach, I critique" *(默认 / default)*
-深度理解。AI 挤完核心知识，然后你开始讲。R1 "用你自己的话解释" → R2 "条件变了会怎样" → R3 "什么情况不适用" → R4 "跟前面学的有什么关系" → R5 "局限是什么"。答不上来→诊断根因（概念没吃透？推理断了？前面基础漏了？）→修复→重来。**全部轮次 fail → "基础断崖" → 回溯前置章节。** `mastery_depth = deep`。
-
-Best for real understanding. AI gives the core concept → you explain. R1 "In your own words" → R2 "What if conditions change?" → R3 "When does it fail?" → R4 "How does it connect?" → R5 "What are the limits?" Stuck? Diagnosed (concept gap? reasoning flaw? prerequisite missing?) → repaired → retried. **All rounds fail → Foundation Cliff → go back to prerequisites.**
-
-### 🔮 苏格拉底模式 / Socratic — "我只问，你走到结论 / I only ask, you conclude"
-批判思维。5 轮追问链。每个回答都被挑战。你自己推翻自己，一步步走到结论。`mastery_depth = deep`。
-
-Best for critical thinking. 5-question chain. Each answer challenged. You revise your own framework until it holds.
-
-### 🌐 翻译模式 / Translation — "只关心你能不能表达清楚 / I only care if you can express it"
-英文学术写作。AI 给原文 → 你翻译 → 三维诊断（用词/句法/风格）→ 给参考译法 → 你说出差在哪。`mastery_depth = deep`。
-
-Best for academic English. Original → your translation → 3-axis diagnosis (accuracy/syntax/style) → reference translation → you explain the gap.
-
----
-
-## 快速开始 / Quick Start
-
-```bash
-npx skills add jiangsir668/your-own-tutor
-```
-
-| 中文触发词 | EN Trigger | 做什么 / Action |
+| Dimension / 维度 | Traditional Learning / 传统学习 | Jiaocheng / 教程大师 |
 |---|---|---|
-| `备课` / `teach` | 上传课件建课 | PPT/PDF/DOCX → 自动提取 → 自评 → 🔴 确认架构 |
-| `学习` / `learn` | 续课 | 一口报进度 + 断点续接追问或修复 |
-| `继续` / `continue` | 续课 | 同上 / Same as above |
-| `讲一下` / `explain` | 讲解概念 | 进入讲解模式 / Lecture mode |
-| `通俗解释` / `in plain terms` | 大白话讲解 | Lecture mode, plain language |
-| `学到哪了` / `where was I` | 查进度 | 报全部课程进度 / Reports all course progress |
-| `换模式` / `switch mode` | 切换教学模式 | 列出 4 种模式 + 推荐最优 + 🔴 等确认 |
+| **Pacing / 节奏** | Fixed schedule. One speed for everyone. 固定进度，统一节奏。 | Adaptive. Masters a concept → auto-advances. Stuck → diagnoses + repairs. 自适应。掌握就推进，卡壳就诊断修复。 |
+| **Feedback / 反馈** | Days or weeks for homework grading. 作业批改要等几天甚至几周。 | Instant. Every answer gets a gate (✅ pass / 🔶 middle / 🔴 fail). 即时。每道题都有闸门判定。 |
+| **Memory / 记忆** | Review is your own problem. 复习全靠自己。 | Spiral review built into every note. Auto-tracks what you've mastered. 每篇笔记内置螺旋复习提醒。自动追踪掌握状态。 |
+| **Mode / 模式** | One teaching style. Take it or leave it. 一种教学方式，接不接受自己扛。 | Four modes: Lecture, Feynman (you teach), Socratic (derive yourself), Translation. 四种模式：讲解、费曼追问、苏格拉底推导、翻译。 |
+| **Tracking / 追踪** | A notebook you might lose. 笔记本，可能会丢。 | Obsidian-synced notes, error book, roadmap — all auto-updated. Obsidian 同步笔记、错题本、路线图——自动更新。 |
+| **Attention / 专注** | Teacher can't see if you're drifting. 老师看不到谁走神了。 | State anchor every message. Visible repair counter. No skipping. 每条消息状态锚点。可见的修复计数。无法跳过。 |
+| **Content / 内容** | One textbook. Hope it's good. 一本教材，碰运气。 | Upload anything. Your actual courseware. Auto-structured. 传你自己的课件，自动结构化。 |
+| **Fatigue / 疲劳** | Keep going or give up. 硬撑或放弃。 | Detects 5 failure modes. Suggests mode switch, terminology downgrade, or rest. 检测 5 种卡壳原因。建议切模式、降术语或休息。 |
 
-### 交互演示 / Demo
+> **Not another chatbot. An actual tutor with a curriculum, memory, and accountability. 不是又一个聊天机器人。一个有课纲、有记忆、有追问的真正的导师。**
 
+---
+
+## ✨ Features / 功能
+
+| Feature / 功能 | Description / 描述 |
+|---|---|
+| 🏗️ **Auto Course Building**<br>**自动建课** | Upload a PDF/PPT/DOCX. AI extracts every concept, groups by dependency, tags difficulty, estimates study time. 上传课件，AI 自动提取知识点、建立依赖关系、标注难度、估算学时。 |
+| 🎓 **4 Teaching Modes**<br>**四种教学模式** | Lecture (explain + verify), Feynman (you teach, I grill), Socratic (I only ask questions), Translation (academic translation with 3D diagnosis). 讲解、费曼追问、苏格拉底推导、翻译三维诊断。 |
+| 📝 **Smart Note-Taking**<br>**智能笔记** | Pops up after every mastered concept — choose language, auto-saves to Obsidian with your own Feynman restatement. 每学完一个概念弹窗询问，按你选的语言自动写进 Obsidian。 |
+| 📊 **Error Book**<br>**错题本** | Concepts you struggle with (repair ≥2 or fail ≥2) get logged in a cross-course error book. 卡了两遍的概念自动提醒加入错题本，跨课程汇总追踪。 |
+| 🗺️ **Live Roadmap**<br>**实时路线图** | Chapter progress auto-updates (⏳ → ✅) as you complete every concept. 每章所有概念通完后自动标记完成，不弹窗打扰。 |
+| 🔒 **Safety Gates**<br>**安全闸门** | All file paths double-sanitized before write. Capacity limits. Path isolation. Consistency self-check after every progress write. 文件名双重净化后写盘，容量上限，路径隔离，一致性自检。 |
+| 🌐 **Bilingual Everywhere**<br>**全流程双语** | Per-message language detection. Popups follow your current language. Notes and error book in your chosen language. 逐条消息检测语言，弹窗跟随，笔记错题本自选。 |
+| 🧠 **SCAN Attention Gate**<br>**SCAN 注意力闸** | State anchor forces the model to regenerate tracking tokens every interaction — proven to recover attention weights in long sessions. 每次交互强制输出状态锚点，恢复长会话中的注意力权重。 |
+
+---
+
+## ⚡ Quick Start / 快速开始
+
+> [!WARNING]
+> **Claude Desktop only. 仅支持桌面端。** This skill runs on Claude Desktop (Cowork mode, Pro/Max subscription). It does NOT run on Claude Code, Claude API, or web Claude.ai. The agent architecture spoofs isolated agents via inline prompts — no external dependencies, no API keys, no terminal commands.
+>
+> **仅支持 Claude Desktop（Cowork 模式，Pro/Max 订阅）。** 不支持 Claude Code、Claude API 或网页版 Claude.ai。Agent 架构通过内联 prompt 模拟独立 agent——无需外部依赖、无需 API Key、无需终端命令。
+
+### Prerequisites / 前提
+- Claude Desktop (Pro/Max) — Cowork mode
+- Obsidian Vault (optional — course files auto-sync to your vault)
+- Claude Desktop（Pro/Max）— Cowork 模式
+- Obsidian Vault（可选——课程文件自动同步至你的知识库）
+
+### Install / 安装
+
+1. Open Claude Desktop → Skills panel → Import `SKILL.md`
+2. Type `jiaocheng` or upload a PDF
+3. Done.
+
+1. 打开 Claude Desktop → Skills 面板 → 导入 `SKILL.md`
+2. 输入"jiaocheng"或上传课件
+3. 完成。
+
+### First Run / 首次运行
 ```
-你: 学习
-
-AI: 📍 工程统计学
-    Ch3 中心极限定理 (practicing)
-    上次答到 R3 卡住了，用工厂类比修复中。
-    连续 5 天打卡。继续？
-
-你: 换模式
-
-AI: 1. 讲解 / Lecture — 我讲透你再讲回来 / I explain, you explain back
-    2. 费曼 / Feynman — 你讲我来挑刺 / You teach, I critique  ← 推荐：这概念需要深究
-    3. 苏格拉底 / Socratic — 我只问，你走到结论 / I only ask
-    4. 翻译 / Translation — 只关心你的英文表达
-    选哪个？/ Which one?
-
-AI (EN material detected): "This material is in English. Would you like to learn in English or Chinese?"
+You: jiaocheng
+→ Upload a PDF or say "teach me" / 上传课件或说"教我"
+→ AI builds your course → shows roadmap → ask "ready to learn?"
+→ 4 modes available / 四种模式随时切换
 ```
 
 ---
 
-## 质量保证 / Quality
-
-- **10/10 自动化测试全绿** — 费曼中间态、模式切换、修复天花板、不变检查
-- **10/10 automated tests** — Feynman mid-states, mode switching, repair ceiling, invariants
-- **3 轮多Agent独立审计** — HIGH 逻辑冲突清零
-- **3 rounds multi-agent audits** — zero HIGH conflicts remaining
-- **6 项 Session 结束复检** — 阻断异常状态落盘
-- **6 invariant checks at session end** — blocks corrupt state
-- **Darwin 评分: A (87%+)** — 独立评分 Agent 审计
-- **Darwin Score: A (87%+)** — audited by independent scoring agents
-- **双语逐消息检测** — 中英混用以字符数仲裁
-- **Bilingual, per-message** — character-count arbitration for mixed input
-
----
-
-## 文件 / Files
+## 🏗️ Architecture / 架构
 
 ```
-your-own-tutor/
-├── SKILL.md              # 10.7KB, 单文件自包含 / self-contained skill
-├── README.md             # 本文件 / This file
-├── jiaocheng-tests.md    # 10 条自动化测试 / 10 automated tests
-└── LICENSE               # MIT
+User Message / 用户消息
+    │
+    ▼
+┌─────────────────────┐
+│   ORCHESTRATOR      │  ← Language detection + route / 语言检测+路由
+│   (Main Skill)      │     Never teaches, never writes files
+│   主 Skill           │     不教学，不写盘
+└──────┬──────┬───────┘
+       │      │
+       ▼      ▼
+┌──────────┐ ┌──────────┐ ┌──────────────┐
+│ COURSE   │ │ TEACHER  │ │ FILE WRITER  │
+│ BUILDER  │ │ AGENT    │ │ AGENT        │
+│ 建课     │ │ 教学     │ │ 文件写入      │
+│          │ │          │ │              │
+│ sonnet   │ │ sonnet   │ │ haiku        │
+│ One-time │ │ Per-round│ │ Double-gate  │
+│ 一次性    │ │ 每轮调用  │ │ sanitization │
+│          │ │ No Write │ │ 双重净化      │
+└──────────┘ └──────────┘ └──────────────┘
+       │           │              │
+       ▼           ▼              ▼
+  course.json  teaching_output  Obsidian Vault
+               + state_changes  /jiaocheng/{course_id}/
+                                ├── 学习路线.md / roadmap.md
+                                ├── 错题本.md / errorbook.md
+                                ├── 笔记/ / notes/
+                                └── progress.json
+```
+
+> **Design principle / 设计原则**: The orchestrator does not teach. The teacher does not write files. The file writer does not teach. Three roles, one workflow. 编排器不教学，教师不写盘，文件写入器不教学。三个角色，一条流程。
+
+---
+
+## 🎓 Teaching Modes / 教学模式
+
+### 📖 Lecture / 讲解模式
+AI explains → gives a problem → you answer → repeat until mastery.
+Easy concepts: 2 rounds. Medium: 3. Hard: 4.
+
+AI 讲解 → 出题 → 你回答 → 重复直到掌握。简单概念 2 轮，中等 3 轮，困难 4 轮。
+
+### 💡 Feynman / 费曼模式
+You explain in your own words. AI grills you through 5 rounds:
+R1: Restate → R2: Counterexample → R3: Failure conditions → R4: Connect to known → R5: Limits
+
+你用自己的话解释。AI 五轮追问：用自己的话复述 → 举反例 → 找失效条件 → 关联已有知识 → 识别边界。
+
+### 🗣️ Socratic / 苏格拉底模式
+AI only asks questions. You derive the concept yourself. No answers given. Genuine understanding required — "I get it" without explanation does not count.
+
+AI 只提问不回答。你自主推导。空洞的"我懂了"不视为掌握，必须给出具体解释或新例子。
+
+### 🌐 Translation / 翻译模式
+AI gives original text → you translate → 3D diagnosis (accuracy/fluency/naturalness) → reference → you identify differences. Fail ≥3: degrade to lecture.
+
+AI 出原文 → 你翻译 → 三维诊断（准确性/流畅度/地道程度）→ 参考译文 → 你说出差异。连挂 3 次自动降级。
+
+---
+
+## 🔄 Teaching Loop (9 Steps) / 教学循环（9 步）
+
+```
+1. Read progress.json / 读进度
+2. State anchor 📌 / 状态锚点
+3. Spawn teacher agent / 启动教师 agent
+4. Update state / 更新状态
+5. Popup notes? / 弹窗笔记？
+6. Popup error book? / 弹窗错题本？
+7. Update roadmap (silent) / 静默更新路线图
+8. Write progress (MANDATORY) + consistency check / 写进度（必做）+ 一致性校验
+9. Auto-advance to next concept / 自动推进到下一个知识点
+```
+
+Every user message triggers one complete cycle. Nothing is skipped. 每条用户消息触发一次完整循环。不跳过任何步骤。
+
+---
+
+## 🔒 Safety & Security / 安全机制
+
+| Gate / 闸门 | What It Does / 作用 |
+|---|---|
+| **Write-Before-Sanitize**<br>**写盘前净化** | Every Write must be preceded by a visible sanitize output line in chat. Missing → recovery → still writes. 每条 Write 前面必须在聊天里输出可见的净化行。漏了 → 补救 → 仍然写盘。 |
+| **Double-Gate in File Writer**<br>**文件写入器双重闸门** | Sanitize again in the file-writer agent. Verify path is under vault/jiaocheng/. Reject if not. 写盘 agent 内再净化一次。校验路径在 vault 下，否则拒绝。 |
+| **Capacity Guard**<br>**容量上限** | Notes ≤200 files/course, error book ≤500 rows, roadmap ≤50KB. Alert but don't block teaching. 笔记 ≤200 文件/课，错题 ≤500 行，路线图 ≤50KB。告警不阻塞。 |
+| **Path Isolation**<br>**路径隔离** | All files under `{vault}/jiaocheng/{course_id}/`. Degrade to memory if vault unreachable — no data loss. 全部文件在指定路径下。vault 不可写则退化到内存——不丢数据。 |
+| **Consistency Auto-Fix**<br>**一致性自动修复** | After every progress write: check depth non-empty when mastered, repair≥3 forced abandoned, four-bool mutex. Inconsistency → auto-fix with visible warning. 每次写进度后检查必填字段完整性，不一致自动修复并输出警告。 |
+
+---
+
+## 🧪 Quality / 质量验证
+
+| Tool / 工具 | Result / 结果 |
+|---|---|
+| **efaimo** (Agent Skills Spec Audit) | **A (94/100)** — 0 errors, 1 warning |
+| **skilltest** (29-point Static Analysis) | **27/29 passed** — 0 failures |
+| **Internal Test Suite** (56-point) | **56/56 passed** — Security 8/8, Runtime 15/15 |
+
+---
+
+## 📁 Repository Structure / 仓库结构
+
+```
+jiaocheng/
+├── SKILL.md                 # Main skill file / 主 skill 文件
+├── CAPABILITIES.md           # Full capability document / 完整能力文档
+├── README.md                 # This file / 本文件
+├── LICENSE                   # MIT
+└── agents/                   # Agent definitions (for Claude Code)
+    ├── jiaocheng-teacher.md
+    ├── jiaocheng-file-writer.md
+    └── jiaocheng-course-builder.md
 ```
 
 ---
 
-## 贡献 / Contribute
+## 🤝 Contributing / 参与贡献
 
-欢迎提 Issue 和 PR / Issues & PRs welcome。改完跑 `jiaocheng-tests.md`——10 条必须全绿 / Run after any change — all 10 must pass。
+Found a bug? Have an idea? 发现 bug 或有想法？
+
+1. Fork → branch → commit → PR
+2. Describe what you changed and why / 描述你改了什么和为什么
+3. Response within 48h / 48 小时内回复
 
 ---
 
-## License
+## 📄 License / 许可
 
-MIT © 2026 [jiangsir668](https://github.com/jiangsir668)
+MIT © [jiangsir668](https://github.com/jiangsir668)
 
 ---
 
 <p align="center">
-  <sub>Built with Darwin Skill Optimizer · Audited by multi-agent adversarial review</sub><br>
-  <sub>由 Darwin Skill 优化器构建 · 多 Agent 对抗审计验证</sub>
+  <sub>Built with ❤️ for students who want to learn better. 为好学者而建。</sub>
 </p>
